@@ -1,6 +1,6 @@
 # Heterogenous Agents Model with Frictions
 
-The subfolder solves two-dimensional heterogenous-agent production economies in sections 5.3.1, 5.3.2, 5.3.3.
+The subfolder solves two-dimensional heterogenous-agent production economies in sections 5.3.4 using Finite Difference
 
 ### Scripts Overview
 

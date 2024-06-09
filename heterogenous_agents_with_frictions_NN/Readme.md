@@ -1,6 +1,6 @@
 # Heterogenous Agents Model with Frictions
 
-The subfolder solves three-dimenisonal heterogenous-agent production economies in sections 5.3.1, 5.3.2, 5.3.3.
+The subfolder solves three-dimenisonal heterogenous-agent production economies in sections 5.3.1, 5.3.2, 5.3.3 using neural nets.
 
 ### Scripts Overview
 
