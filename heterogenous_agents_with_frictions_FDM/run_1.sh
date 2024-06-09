@@ -17,41 +17,41 @@ lambda_darray=(0.0)
 nuarray=(0.1)
 shock_expo_array=("lower_triangular" "upper_triangular")
 
-nWarray=(1800 180)
+nWarray=(1800)
 nZ=30
-dtarray=(0.01 0.5)
+dtarray=(0.01)
 
-for index in ${!shock_expo_array[@]}; do
-    shock_expo=${shock_expo_array[$index]}
-    nW=${nWarray[$index]}
-    dt=${dtarray[$index]}
-    for chiUnderline in ${chiUnderlinearray[@]}; do
-        for a_e in "${a_earray[@]}"; do
-            for a_h in "${a_harray[@]}"; do
-                for gamma_e in "${gamma_earray[@]}"; do
-                    for gamma_h in "${gamma_harray[@]}"; do
-                        for rho_e in "${rho_earray[@]}"; do
-                            for rho_h in "${rho_harray[@]}"; do
-                                for delta_e in "${delta_earray[@]}"; do
-                                    for delta_h in "${delta_harray[@]}"; do
-                                        for lambda_d in "${lambda_darray[@]}"; do
-                                            for nu in "${nuarray[@]}"; do
+for nW in ${nWarray[@]}; do
+    for dt in ${dtarray[@]}; do
+        for chiUnderline in ${chiUnderlinearray[@]}; do
+            for a_e in "${a_earray[@]}"; do
+                for a_h in "${a_harray[@]}"; do
+                    for gamma_e in "${gamma_earray[@]}"; do
+                        for gamma_h in "${gamma_harray[@]}"; do
+                            for rho_e in "${rho_earray[@]}"; do
+                                for rho_h in "${rho_harray[@]}"; do
+                                    for delta_e in "${delta_earray[@]}"; do
+                                        for delta_h in "${delta_harray[@]}"; do
+                                            for lambda_d in "${lambda_darray[@]}"; do
+                                                for nu in "${nuarray[@]}"; do
+                                                    for shock_expo in "lower_triangular"; do
+                                                        for nu in "${nuarray[@]}"; do
 
-                                                count=0
+                                                            count=0
 
-                                                action_name="finite_difference"
+                                                            action_name="finite_difference"
 
-                                                mkdir -p ./job-outs/${action_name}/${shock_expo}/${dt}_nW_${nW}_nZ_${nZ}/chiUnderline_${chiUnderline}/a_e_${a_e}_a_h_${a_h}/gamma_e_${gamma_e}_gamma_h_${gamma_h}/rho_e_${rho_e}_rho_h_${rho_h}/delta_e_${delta_e}_delta_h_${delta_h}/lambda_d_${lambda_d}_nu_${nu}/
+                                                            mkdir -p ./job-outs/${action_name}/${shock_expo}/${dt}_nW_${nW}_nZ_${nZ}/chiUnderline_${chiUnderline}/a_e_${a_e}_a_h_${a_h}/gamma_e_${gamma_e}_gamma_h_${gamma_h}/rho_e_${rho_e}_rho_h_${rho_h}/delta_e_${delta_e}_delta_h_${delta_h}/lambda_d_${lambda_d}_nu_${nu}/
 
-                                                if [ -f ./bash/${action_name}/${shock_expo}/${dt}_nW_${nW}_nZ_${nZ}/chiUnderline_${chiUnderline}/a_e_${a_e}_a_h_${a_h}/gamma_e_${gamma_e}_gamma_h_${gamma_h}/rho_e_${rho_e}_rho_h_${rho_h}/delta_e_${delta_e}_delta_h_${delta_h}/lambda_d_${lambda_d}_nu_${nu}/run.sh ]; then
-                                                    rm ./bash/${action_name}/${shock_expo}/${dt}_nW_${nW}_nZ_${nZ}/chiUnderline_${chiUnderline}/a_e_${a_e}_a_h_${a_h}/gamma_e_${gamma_e}_gamma_h_${gamma_h}/rho_e_${rho_e}_rho_h_${rho_h}/delta_e_${delta_e}_delta_h_${delta_h}/lambda_d_${lambda_d}_nu_${nu}/run.sh
-                                                fi
+                                                            if [ -f ./bash/${action_name}/${shock_expo}/${dt}_nW_${nW}_nZ_${nZ}/chiUnderline_${chiUnderline}/a_e_${a_e}_a_h_${a_h}/gamma_e_${gamma_e}_gamma_h_${gamma_h}/rho_e_${rho_e}_rho_h_${rho_h}/delta_e_${delta_e}_delta_h_${delta_h}/lambda_d_${lambda_d}_nu_${nu}/run.sh ]; then
+                                                                rm ./bash/${action_name}/${shock_expo}/${dt}_nW_${nW}_nZ_${nZ}/chiUnderline_${chiUnderline}/a_e_${a_e}_a_h_${a_h}/gamma_e_${gamma_e}_gamma_h_${gamma_h}/rho_e_${rho_e}_rho_h_${rho_h}/delta_e_${delta_e}_delta_h_${delta_h}/lambda_d_${lambda_d}_nu_${nu}/run.sh
+                                                            fi
 
-                                                mkdir -p ./bash/${action_name}/${shock_expo}/${dt}_nW_${nW}_nZ_${nZ}/chiUnderline_${chiUnderline}/a_e_${a_e}_a_h_${a_h}/gamma_e_${gamma_e}_gamma_h_${gamma_h}/rho_e_${rho_e}_rho_h_${rho_h}/delta_e_${delta_e}_delta_h_${delta_h}/lambda_d_${lambda_d}_nu_${nu}/
+                                                            mkdir -p ./bash/${action_name}/${shock_expo}/${dt}_nW_${nW}_nZ_${nZ}/chiUnderline_${chiUnderline}/a_e_${a_e}_a_h_${a_h}/gamma_e_${gamma_e}_gamma_h_${gamma_h}/rho_e_${rho_e}_rho_h_${rho_h}/delta_e_${delta_e}_delta_h_${delta_h}/lambda_d_${lambda_d}_nu_${nu}/
 
-                                                touch ./bash/${action_name}/${shock_expo}/${dt}_nW_${nW}_nZ_${nZ}/chiUnderline_${chiUnderline}/a_e_${a_e}_a_h_${a_h}/gamma_e_${gamma_e}_gamma_h_${gamma_h}/rho_e_${rho_e}_rho_h_${rho_h}/delta_e_${delta_e}_delta_h_${delta_h}/lambda_d_${lambda_d}_nu_${nu}/run.sh
+                                                            touch ./bash/${action_name}/${shock_expo}/${dt}_nW_${nW}_nZ_${nZ}/chiUnderline_${chiUnderline}/a_e_${a_e}_a_h_${a_h}/gamma_e_${gamma_e}_gamma_h_${gamma_h}/rho_e_${rho_e}_rho_h_${rho_h}/delta_e_${delta_e}_delta_h_${delta_h}/lambda_d_${lambda_d}_nu_${nu}/run.sh
 
-                                                tee -a ./bash/${action_name}/${shock_expo}/${dt}_nW_${nW}_nZ_${nZ}/chiUnderline_${chiUnderline}/a_e_${a_e}_a_h_${a_h}/gamma_e_${gamma_e}_gamma_h_${gamma_h}/rho_e_${rho_e}_rho_h_${rho_h}/delta_e_${delta_e}_delta_h_${delta_h}/lambda_d_${lambda_d}_nu_${nu}/run.sh <<EOF
+                                                            tee -a ./bash/${action_name}/${shock_expo}/${dt}_nW_${nW}_nZ_${nZ}/chiUnderline_${chiUnderline}/a_e_${a_e}_a_h_${a_h}/gamma_e_${gamma_e}_gamma_h_${gamma_h}/rho_e_${rho_e}_rho_h_${rho_h}/delta_e_${delta_e}_delta_h_${delta_h}/lambda_d_${lambda_d}_nu_${nu}/run.sh <<EOF
 #!/bin/bash
 
 #SBATCH --account=pi-lhansen
@@ -81,8 +81,11 @@ elapsed=\$((end_time - start_time))
 eval "echo Elapsed time: \$(date -ud "@\$elapsed" +'\$((%s/3600/24)) days %H hr %M min %S sec')"
 
 EOF
-                                                count=$(($count + 1))
-                                                sbatch ./bash/${action_name}/${shock_expo}/${dt}_nW_${nW}_nZ_${nZ}/chiUnderline_${chiUnderline}/a_e_${a_e}_a_h_${a_h}/gamma_e_${gamma_e}_gamma_h_${gamma_h}/rho_e_${rho_e}_rho_h_${rho_h}/delta_e_${delta_e}_delta_h_${delta_h}/lambda_d_${lambda_d}_nu_${nu}/run.sh
+                                                            count=$(($count + 1))
+                                                            sbatch ./bash/${action_name}/${shock_expo}/${dt}_nW_${nW}_nZ_${nZ}/chiUnderline_${chiUnderline}/a_e_${a_e}_a_h_${a_h}/gamma_e_${gamma_e}_gamma_h_${gamma_h}/rho_e_${rho_e}_rho_h_${rho_h}/delta_e_${delta_e}_delta_h_${delta_h}/lambda_d_${lambda_d}_nu_${nu}/run.sh
+                                                        done
+                                                    done
+                                                done
                                             done
                                         done
                                     done
