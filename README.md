@@ -1,1 +1,13 @@
-# macro_finance
+# Macro Finance
+
+This repository contains the replication files for the research by Hansen, Khorrami, and Tourre (2024). It is organized into five subfolders, each corresponding to specific sections of the paper:
+
+1. **Section 4.4:** `single_capital_with_stochastic_volatility`
+2. **Section 4.5:** `single_capital_with_structure_ambiguity`
+3. **Section 4.6:** `heterogenous_capital_with_stochastic_volatility`
+4. **Sections 5.3.1, 5.3.2, 5.3.3:** `heterogenous_agents_with_frictions_NN`
+5. **Section 5.3.4:** `heterogenous_agents_with_frictions_FDM`
+
+We recommend running the code on clusters. To replicate the calibrations used in the paper, please run the bash files in each subfolder sequentially. The results from each subfolder are independent and can be read in the Jupyter notebook named `results.ipynb` found in each subfolder.
+
+Readers can modify the bash files and main files directly to test customized parameters.

@@ -45,7 +45,6 @@ nu = "{:0.3f}".format(args.nu)
 
 folder_name = ('output/' + args.action_name + '/' + args.shock_expo +'/dt_'+str(args.dt)+'/nW_'+str(args.nW)+'_nZ_'+str(args.nZ)+'/chiUnderline_' + chiUnderline + '/a_e_' + a_e + '_a_h_' + a_h  + '/gamma_e_' + gamma_e + '_gamma_h_' + gamma_h + '/rho_e_' + rho_e + '_rho_h_' + rho_h + '/delta_e_' + delta_e + '_delta_h_' + delta_h + '/lambda_d_' + lambda_d + '_nu_' + nu)
 
-
 def read_dat(filename):
     with open(folder_name + '/'+filename+'.dat', 'r') as file:
         data = [float(line.strip()) for line in file if line.strip()]
