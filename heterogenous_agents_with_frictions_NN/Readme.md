@@ -2,30 +2,24 @@
 
 The subfolder solves three-dimenisonal heterogenous-agent production economies in sections 5.3.1, 5.3.2, 5.3.3 using neural nets.
 
-### Scripts Overview
-
-### Model Execution and Analysis Scripts
+## Scripts Overview
 
 1. **run_1.sh**
    - **main_BFGS.py**: Executes the model RF / SG / PR using the scipy L-BFGS-B solver.
      - **utils_para.py**: Generates parameters in the model
      - **utils_training.py**: Defines HJB and FOC loss functions
      - **utils_DGM.py**: Neural nets basic structures
-   - Estimated running time: < 3 mins (tested on a single core of Intel Xeon Gold 6248R using the parameters in the bash file)
 2. **run_2.sh**
    - **main_variable.py**: Evaluates the solved models on validation sets, calculate stationary densities and validation errors
-   - Estimated running time: < 3 mins (tested on a single core of Intel Xeon Gold 6248R using the parameters in the bash file)
 3. **run_3.sh**
    - **main_pde_shock_elasticity.py**: Calculates shock elasticities by solving PDE
      - **utils_pde_shock_elasticity.py**: Contains source files for continuous-time shock elasticity PDE computations.
-   - Estimated running time: < 15 mins (tested on a single core of Intel Xeon Gold 6248R using the parameters in the bash file)
 4. **run_4.sh**
    - **main_sim_shock_elasticity.py**: Calculates shock elasticities by simulation
      - **utils_sim_shock_elasticity.py**: Contains source files for continuous-time shock elasticity simulations.
-   - Estimated running time: < 2 mins (tested on 45 cores of Intel Xeon Gold 6248R using the parameters in the bash file)
 5. **results.ipynb**: Load model solution, plot risk prices, equilibrium varibles, shock elasticities.
 
-### Generated Directory Structure
+## Generated Directory Structure
 
 Running the above bash scripts organizes the outputs and logs into specific directories to streamline troubleshooting and monitoring of script execution:
 
@@ -51,3 +45,11 @@ Running the above bash scripts organizes the outputs and logs into specific dire
      - ***.npz**: Contains shock elasticities
 4. **data**
    - Contains all parameters used in the models.
+
+## Estimated Running Time
+1. **run_1.sh**: < 3 mins
+2. **run_2.sh**: < 3 mins
+3. **run_3.sh**: < 15 mins
+4. **run_4.sh**: < 2 mins (tested on 45 cores)
+
+Each task was tested on a single core of Intel Xeon Gold 6248R using the parameters in the bash file, with multiple tasks run simultaneously, except for **run_4.sh**, which was tested on 45 cores.

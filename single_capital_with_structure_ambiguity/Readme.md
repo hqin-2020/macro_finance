@@ -10,7 +10,6 @@ The subfolder solves single capital production economies with structure ambiguit
     - **main_pde_shock_elasticity.py**: Solve the uncertainty price shock elasticity using Finite Diffence.
         - **utils_pde_shock_elasticity.py**: Contains source files for continuous-time shock elasticity PDE computations.
         - **utils_FDM.py**: Computes finite differences for input data across various dimensions and orders.
-   - Estimated running time: < 1 min (tested on a single core of Intel Xeon Gold 6248R using the parameters in the bash file)
 2. **results.ipynb**: Load model solutions, plot distorted drifts, ambiguity sets, and uncertainty price elasticities.
 
 ## Generated Directory Structure
@@ -25,3 +24,7 @@ Running the above bash scripts organizes the outputs and logs into specific dire
    - Contains the computed model solutions and other outputs.
         - ***res.npz**: Contains state variables, control variables, stationary densities, important derivatives, etc.
         - **uncertainty_priceelas.npz**: Contains the uncertainty price shock elasticity
+
+## Estimated Running Time
+1. **run.sh**: < 1 min
+Each task tested on a single core of Intel Xeon Gold 6248R using the parameters in the bash file, with multiple tasks run simultaneously
