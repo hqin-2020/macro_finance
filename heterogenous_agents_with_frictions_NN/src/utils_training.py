@@ -6,7 +6,7 @@ from scipy import optimize
 import warnings
 warnings.filterwarnings("ignore")
 tf.get_logger().setLevel('ERROR')
-tf.config.set_visible_devices([], 'GPU')
+tf.config.set_visible_devices([], 'GPU') # To enable GPU acceleration, comment out the following line and ensure CUDA and cuDNN libraries are properly installed
 
 @tf.function 
 def calc_var(NN, W, Z, V, params):
@@ -440,7 +440,7 @@ def function_factory(model, loss, W, Z, V, params, loss_type, targets, penalizat
     """
     This function creates a function that calculates the loss and gradients for the BFGS algorithm
     """
-    
+
     ## Obtain the shapes of all trainable parameters in the model
     shapes = tf.shape_n(model.trainable_variables)
     n_tensors = len(shapes)

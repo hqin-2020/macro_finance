@@ -11,7 +11,7 @@ from utils_pde_shock_elasticity import computeElas
 import warnings
 warnings.filterwarnings("ignore")
 tf.get_logger().setLevel('ERROR')
-tf.config.set_visible_devices([], 'GPU')
+tf.config.set_visible_devices([], 'GPU') # To enable GPU acceleration, comment out the following line and ensure CUDA and cuDNN libraries are properly installed
 import argparse
 
 ## Parameter parser
