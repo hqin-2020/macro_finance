@@ -1,6 +1,6 @@
 #! /bin/bash
 
-python_name="main_sim_shock_elasticity.py"
+# Description: This script computes shock elasticities for the two-dimensional IP economy in Section 5.3.4 
 
 # Model IP Configuration
 chiUnderlinearray=(1.0)
@@ -70,7 +70,7 @@ echo "\$SLURM_JOB_NAME"
 echo "Program starts \$(date)"
 start_time=\$(date +%s)
 
-python3 ./src/$python_name --chiUnderline $chiUnderline --a_e $a_e --a_h $a_h --gamma_e $gamma_e --gamma_h $gamma_h --rho_e $rho_e --rho_h $rho_h --nW $nW  --action_name $action_name --delta_e $delta_e --delta_h $delta_h --lambda_d $lambda_d --nu $nu --dt $dt --nZ $nZ --shock_expo $shock_expo --initial_index $initial_index
+python3 ./src/main_sim_shock_elasticity.py --chiUnderline $chiUnderline --a_e $a_e --a_h $a_h --gamma_e $gamma_e --gamma_h $gamma_h --rho_e $rho_e --rho_h $rho_h --nW $nW  --action_name $action_name --delta_e $delta_e --delta_h $delta_h --lambda_d $lambda_d --nu $nu --dt $dt --nZ $nZ --shock_expo $shock_expo --initial_index $initial_index
 
 echo "Program ends \$(date)"
 end_time=\$(date +%s)

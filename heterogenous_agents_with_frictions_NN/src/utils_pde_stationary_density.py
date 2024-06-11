@@ -14,10 +14,6 @@ Fabrice Tourre:  fabrice@uchicago.edu
 
 """
 
-from __future__ import division, print_function, absolute_import
-
-
-
 from numba import jit
 import numpy as np
 from scipy.sparse import csc_matrix, identity

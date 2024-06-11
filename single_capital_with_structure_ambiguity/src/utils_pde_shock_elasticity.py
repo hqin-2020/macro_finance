@@ -12,21 +12,13 @@ Paymon Khorrami: paymon@uchicago.edu
 Fabrice Tourre:  fabrice@uchicago.edu
 """
 
-from __future__ import division, print_function, absolute_import
-
-
-import itertools
-
-from numba import jit, prange
+from numba import jit
 import numpy as np
-import collections
 from scipy.sparse import csc_matrix
 from scipy.sparse.linalg import factorized
 import math
-from scipy.interpolate import RegularGridInterpolator, interpn
-import copy
+from scipy.interpolate import RegularGridInterpolator
 from pyMKL import pardisoSolver
-import warnings
 
 def getStateMatInfo(stateMat):
 

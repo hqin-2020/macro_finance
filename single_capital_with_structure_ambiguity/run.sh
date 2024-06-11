@@ -1,7 +1,6 @@
 #! /bin/bash
 
-# Description: This script solves the model and computes shock elasticities for the first specification
-# in Section 4.5, where ambiguity is limited to the two slope parameters.
+# Description: This script solves the model and computes shock elasticities for the specification in Section 4.5.
 
 #### Parameter Configuration Arrays: each array contains the values of the parameters for the different scenarios
 Deltaarray=(1.0)
@@ -10,10 +9,6 @@ alphaarray=(0.0922)
 qarray=(0.2)
 gammaarray=(1.0 3.0 1.0 4.0)
 twoparameterarray=(1 1 0 0)
-
-#### Script Names: "solve_name" solves the model; "elasticity_name" computes shock elasticities;
-solve_name="main_onecapital.jl"
-elasticity_name="main_pde_shock_elasticity.py"
 
 for Delta in ${Deltaarray[@]}; do
     for index in ${!rhoarray[@]}; do
@@ -51,15 +46,15 @@ for Delta in ${Deltaarray[@]}; do
 #SBATCH --mem=1G
 
 module load julia/1.7.3
-module load python/anaconda-2020.11
+module load python/anaconda-2022.05
 
 echo "\$SLURM_JOB_NAME"
 
 echo "Program starts \$(date)"
 start_time=\$(date +%s)
 
-srun julia ./src/$solve_name  --Delta ${Delta} --alpha ${alpha} --gamma ${gamma} --rho ${rho} --q ${q} --action_name ${action_name}  --twoparameter ${twoparameter} 
-python3 ./src/$elasticity_name  --Delta ${Delta} --alpha ${alpha} --gamma ${gamma} --rho ${rho} --q ${q} --action_name ${action_name} --twoparameter ${twoparameter} 
+srun julia ./src/main_onecapital.jl  --Delta ${Delta} --alpha ${alpha} --gamma ${gamma} --rho ${rho} --q ${q} --action_name ${action_name}  --twoparameter ${twoparameter} 
+python3 ./src/main_pde_shock_elasticity.py  --Delta ${Delta} --alpha ${alpha} --gamma ${gamma} --rho ${rho} --q ${q} --action_name ${action_name} --twoparameter ${twoparameter} 
 
 echo "Program ends \$(date)"
 end_time=\$(date +%s)

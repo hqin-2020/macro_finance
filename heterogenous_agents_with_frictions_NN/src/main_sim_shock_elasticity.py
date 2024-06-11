@@ -104,7 +104,6 @@ def read_npy_drift_term(filename, statespace_shape):
     data = np.load(outputdir + filename + '.npy')
     return data.reshape(statespace_shape,order='F')
 
-
 def read_npy_diffusion_term(filename, statespace_shape):
     data = np.load(outputdir + filename + '.npy')
     return [data[:,col].reshape(statespace_shape,order='F') for col in range(data.shape[1])]

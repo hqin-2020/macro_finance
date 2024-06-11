@@ -14,10 +14,10 @@ Fabrice Tourre:  fabrice@uchicago.edu
 
 from numba import jit
 import numpy as np
-from scipy.sparse import csc_matrix
+from scipy.sparse import csc_matrix, identity
 from scipy.sparse.linalg import factorized
-import math
 from scipy.interpolate import RegularGridInterpolator
+import warnings
 from pyMKL import pardisoSolver
 
 def getStateMatInfo(stateMat):
@@ -522,8 +522,9 @@ def computeElasSub(stateMat, model, bc, x0, usePardiso, iparms, betterCP):
             F = RegularGridInterpolator(stateMat, phit[:,r + 1,t].reshape([x.shape[0] for x in stateMat], order ='F') )
             exp2s[:,r,t] = F( x_evals[:,-1,:] )
     secondType = exp2s / exp1s
+    thirdType = exp2s
 
-    return firstType, secondType, phit, linSys, atBounds
+    return firstType, secondType, thirdType, phit, linSys, atBounds
 
 def computeElas(stateMat, model, bc, x0, usePardiso = False, iparms = {}, betterCP = True):
 
@@ -531,8 +532,8 @@ def computeElas(stateMat, model, bc, x0, usePardiso = False, iparms = {}, better
 
     #############Steo 1: Compute shock exposure elasticities
     expoElas = elas()
-    firstType, secondType, phit1, linSys1, atBounds = computeElasSub(stateMat, model, bc, x0, usePardiso, iparms, betterCP)
-    expoElas.firstType = firstType; expoElas.secondType = secondType; 
+    firstType, secondType, thirdType, phit1, linSys1, atBounds = computeElasSub(stateMat, model, bc, x0, usePardiso, iparms, betterCP)
+    expoElas.firstType = firstType; expoElas.secondType = secondType; expoElas.thirdType = thirdType
 
     #############Steo 2: Compute shock cost elasticities
 
@@ -542,13 +543,14 @@ def computeElas(stateMat, model, bc, x0, usePardiso = False, iparms = {}, better
     modelCopy['sigmaC'] = (lambda f1, f2: lambda x: f1(x) + f2(x))(model['sigmaC'], model['sigmaS'])
 
     costElas = elas()
-    firstType, secondType, phit2, linSys2, atBounds = computeElasSub(stateMat, modelCopy, bc, x0, usePardiso, iparms, betterCP)
-    costElas.firstType = firstType; costElas.secondType = secondType;
+    firstType, secondType, thirdType, phit2, linSys2, atBounds = computeElasSub(stateMat, modelCopy, bc, x0, usePardiso, iparms, betterCP)
+    costElas.firstType = firstType; costElas.secondType = secondType; costElas.thirdType = thirdType
 
-    #############Step 3: Compute shock price elasticities
+    #############Steo 3: Compute shock price elasticities
 
     priceElas = elas()
     priceElas.firstType = expoElas.firstType - costElas.firstType
     priceElas.secondType = expoElas.secondType - costElas.secondType
+    priceElas.thirdType = expoElas.thirdType - costElas.thirdType
 
     return expoElas, priceElas, costElas, linSys1, linSys2

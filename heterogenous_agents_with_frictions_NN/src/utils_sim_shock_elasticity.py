@@ -42,6 +42,45 @@ def simulate_single_process(n, initial_point, statespace, dt, f_muX, f_sigmaX, f
     return successful_results, success_count
 
 def simulate_elasticities(statespace, shock_index, dx, dt, muX, sigmaX, mulogM, sigmalogM, mulogS, sigmalogS, initial_point, sim_length, sim_num, return_type=1):
+    """
+    Computes the shock elasticity of the model using the simulation method.
+
+    Parameters:
+    - statespace: list of flatten numpy arrays
+        List of state variables in flattened numpy arrays for each state dimension. Grid points should be unique and sorted in ascending order.
+    - shock_index: int
+        The index of the shock to compute the elasticity for.
+    - dx: list of floats or ints
+        List of small changes to the initial state variables for the derivative in shock elasticity.
+    - dt: float or int
+        Time step for the shock elasticity PDE.
+    - muX: list of numpy arrays
+        List of state variable drift terms as numpy arrays, evaluated at the grid points. The order should match the state variables.
+    - sigmaX: list of lists of numpy arrays
+        List of lists of state variable diffusion terms as numpy arrays, corresponding to different shocks. Evaluated at the grid points. The order should match the state variables.
+    - mulogM: numpy array
+        The log drift term for the response variable M.
+    - sigmalogM: list of numpy arrays
+        The log diffusion terms for the response variable M.
+    - mulogS: numpy array
+        The log drift term for the SDF.
+    - sigmalogS: list of numpy arrays
+        The log diffusion terms for the SDF.
+    - initial_point: list of floats or ints
+        List of a single initial state variable point for the shock elasticity.
+    - T: float
+        The calculation period for the shock elasticity given dt.
+    - sim_length: int
+        The length of the simulation for the process.
+    - sim_num: int
+        The number of simulations to run divided by 100. The actual number of simulations will be 100 times this number.
+    - return_type: int
+        The return type for the function. 1 for only the elasticities, 2 for the elasticities and the simulation processes.
+
+    Returns:
+    dict
+        A dictionary with the computed exposure and price elasticities, and the success counts for the initial and derivative points.
+    """
     derivative_points = []
     for i in range(len(initial_point)):
         derivative_point = initial_point[:]

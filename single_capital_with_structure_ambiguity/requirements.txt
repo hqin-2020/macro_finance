@@ -1,30 +1,7 @@
-aiosignal @ file:///home/conda/feedstock_root/build_artifacts/aiosignal_1667935791922/work
-async-timeout @ file:///tmp/build/80754af9/async-timeout_1637851218186/work
-cloudpickle @ file:///home/conda/feedstock_root/build_artifacts/cloudpickle_1697464713350/work
-ecos==2.0.12
-fastjsonschema @ file:///home/conda/feedstock_root/build_artifacts/python-fastjsonschema_1703780968325/work/dist
-googleapis-common-protos @ file:///opt/conda/conda-bld/googleapis-common-protos-feedstock_1660256159732/work
-jinja2-time @ file:///opt/conda/conda-bld/jinja2-time_1649251842261/work
-json5 @ file:///home/conda/feedstock_root/build_artifacts/json5_1712986206667/work
-jsonpatch @ file:///home/conda/feedstock_root/build_artifacts/jsonpatch_1695536281965/work
-jsonpointer @ file:///home/conda/feedstock_root/build_artifacts/jsonpointer_1695397261020/work
-jsonschema @ file:///home/conda/feedstock_root/build_artifacts/jsonschema-meta_1705707496704/work
-jsonschema-specifications @ file:///tmp/tmpkv1z7p57/src
-nose @ file:///opt/conda/conda-bld/nose_1642704612149/work
+numpy==1.26.1
+matplotlib==3.5.2
+seaborn==0.13.2
 numba==0.58.1
-nvidia-cuda-runtime-cu11==11.7.99
-osqp==0.6.2.post9
-pickle5==0.0.11
-pickleshare @ file:///home/conda/feedstock_root/build_artifacts/pickleshare_1602536217715/work
-posthog==3.5.0
-pycosat @ file:///home/conda/feedstock_root/build_artifacts/pycosat_1696355771368/work
-python-lsp-jsonrpc @ file:///home/conda/feedstock_root/build_artifacts/python-lsp-jsonrpc_1695528365348/work
 scipy==1.10.1
-tensorflow==2.10.0
-tensorflow-addons==0.19.0
-tensorflow-estimator==2.10.0
-tensorflow-gpu==2.10.0
-tensorflow-io-gcs-filesystem==0.27.0
-tensorflow-probability==0.18.0
-tqdm @ file:///home/conda/feedstock_root/build_artifacts/tqdm_1707598593068/work
-ujson @ file:///home/conda/feedstock_root/build_artifacts/ujson_1702256699592/work
+pyMKL==0.0.3
+tqdm==4.66.2

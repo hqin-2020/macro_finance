@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# Description: This script solves the model and computes shock elasticities for the example economy in Section 4.4 for \rho = 1.0
+# Description: This script solves the model and computes shock elasticities for the two-dimensional economy in Section 4.6 for \rho = 1.0 without stochastic volatility.
 
 #### Parameter Configuration Arrays: each array contains the values of the parameters for the different scenarios
-#Symmetric exposure of capital shocks with rho = 1.0
 Deltaarray=(1.0 0.1)
 beta1array=(0.04 0.0)
 beta2array=(0.04 0.08)
@@ -13,9 +12,6 @@ rhoarray=(1.0)
 zetaarray=(0.5)
 gammaarray=(1.0 4.0 8.0)
 kappaarray=(0.0 1.0 2.0)
-
-#### Script Names: "solve_name" solves the model; "elasticity_name" computes shock elasticities;
-solve_name="main_twocapitals_two_dimensions.jl"
 
 for index in ${!Deltaarray[@]}; do
     Delta=${Deltaarray[$index]}
@@ -63,7 +59,7 @@ echo "\$SLURM_JOB_NAME"
 echo "Program starts \$(date)"
 start_time=\$(date +%s)
 
-srun julia ./src/$solve_name  --Delta ${Delta} --gamma ${gamma}  --rho ${rho} --kappa ${kappa} --zeta ${zeta} --action_name ${action_name} --beta1 ${beta1} --beta2 ${beta2} --alpha ${alpha}
+srun julia ./src/main_twocapitals_two_dimensions.jl  --Delta ${Delta} --gamma ${gamma}  --rho ${rho} --kappa ${kappa} --zeta ${zeta} --action_name ${action_name} --beta1 ${beta1} --beta2 ${beta2} --alpha ${alpha}
 
 echo "Program ends \$(date)"
 end_time=\$(date +%s)

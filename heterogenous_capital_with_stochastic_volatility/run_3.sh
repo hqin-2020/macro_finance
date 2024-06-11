@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# Description: This script solves the model and computes shock elasticities for the example economy in Section 4.4 for \rho = 1.0
+# Description: This script solves the model for the three-dimensional economy in Section 4.6 for \rho = 0.67, 1.0, 1.5 with stochastic volatility.
 
 #### Parameter Configuration Arrays: each array contains the values of the parameters for the different scenarios
-#Please run this after finishing the equivalent model without volatility: Symmetric exposure of capital shocks with rho = 1.0
 Deltaarray=(1.0 0.001 1.0)
 kappaarray=(0.0 1.0 2.0)
 
@@ -14,10 +13,6 @@ rhoarray=(0.67 1.0 1.5)
 alphaarray=(0.1638 0.1844 0.216)
 gammaarray=(1.0 4.0 8.0)
 zetaarray=(0.5)
-
-#### Script Names: "solve_name" solves the model; "elasticity_name" computes shock elasticities;
-solve_name="main_twocapitals_three_dimensions.jl"
-elasticity_name="main_pde_shock_elasticity.py"
 
 for index in ${!Deltaarray[@]}; do
     Delta=${Deltaarray[$index]}
@@ -36,7 +31,7 @@ for index in ${!Deltaarray[@]}; do
                             if [[ ("$rho" == "0.67" || "$rho" == "1.5") && ("$kappa" == "1.0" || "$kappa" == "2.0") ]]; then
                                 continue
                             fi
-                            action_name="src_twocapmodel_with_stochastic_volatility"
+
                             action_name="twocap_model_with_stochastic_volatility"
 
                             mkdir -p ./job-outs/${action_name}/beta1_${beta1}_beta2_${beta2}/kappa_${kappa}_zeta_${zeta}/rho_${rho}_gamma_${gamma}_alpha_${alpha}/
@@ -70,8 +65,7 @@ echo "\$SLURM_JOB_NAME"
 echo "Program starts \$(date)"
 start_time=\$(date +%s)
 
-srun julia ./src/$solve_name  --Delta ${Delta} --gamma ${gamma} --rho ${rho} --kappa ${kappa} --zeta ${zeta} --alpha ${alpha} --beta1 ${beta1} --beta2 ${beta2} --action_name ${action_name} 
-# python3 ./src/$elasticity_name  --Delta ${Delta} --gamma ${gamma} --rho ${rho} --kappa ${kappa} --zeta ${zeta} --alpha ${alpha} --beta1 ${beta1} --beta2 ${beta2} --action_name ${action_name} 
+srun julia ./src/main_twocapitals_three_dimensions.jl  --Delta ${Delta} --gamma ${gamma} --rho ${rho} --kappa ${kappa} --zeta ${zeta} --alpha ${alpha} --beta1 ${beta1} --beta2 ${beta2} --action_name ${action_name} 
 
 echo "Program ends \$(date)"
 end_time=\$(date +%s)

@@ -53,7 +53,37 @@ def marginal_quantile_func_factory(dent, statespace, statename):
     return inverseCDFs
 
 def compute_pde_shock_elasticity(statespace, dt, muX, sigmaX, mulogM, sigmalogM, mulogS, sigmalogS, initial_point, T, boundary_condition):
+    """
+    Computes the shock elasticity of the model using the PDE method. It uses an independent module from mfrSuite.
 
+    Parameters:
+    - statespace: list of flatten numpy arrays
+        List of state variables in flattened numpy arrays for each state dimension. Grid points should be unique and sorted in ascending order.
+    - dt: float or int
+        Time step for the shock elasticity PDE.
+    - muX: list of numpy arrays
+        List of state variable drift terms as numpy arrays, evaluated at the grid points. The order should match the state variables.
+    - sigmaX: list of lists of numpy arrays
+        List of lists of state variable diffusion terms as numpy arrays, corresponding to different shocks. Evaluated at the grid points. The order should match the state variables.
+    - mulogM: numpy array
+        The log drift term for the response variable M.
+    - sigmalogM: list of numpy arrays
+        The log diffusion terms for the response variable M.
+    - mulogS: numpy array
+        The log drift term for the SDF.
+    - sigmalogS: list of numpy arrays
+        The log diffusion terms for the SDF.
+    - initial_point: list of lists of floats or ints
+        List of initial state variable points as lists for the shock elasticity.
+    - T: float
+        The calculation period for the shock elasticity given dt.
+    - boundary_condition: dict
+        The boundary condition for the shock elasticity PDE.
+
+    Returns:
+    dict
+        A dictionary with the computed exposure and price elasticities.
+    """
     nDims = len(statespace)
     nShocks = len(sigmalogM)
 
@@ -139,9 +169,9 @@ T = 45
 dt = 1
 boundary_condition = {'natural':True}
 marginal_quantile = marginal_quantile_func_factory(dent, [np.unique(Z)], ['Z'])
-initial_points = np.matrix([[marginal_quantile['Z'](0.1)],\
-                            [marginal_quantile['Z'](0.5)],\
-                            [marginal_quantile['Z'](0.9)]])
+initial_points = [[marginal_quantile['Z'](0.1)],\
+                  [marginal_quantile['Z'](0.5)],\
+                  [marginal_quantile['Z'](0.9)]]
 muX = [zdrift]
 sigmaX = [zdiffusion]
 

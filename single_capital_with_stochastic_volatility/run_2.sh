@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Description: This script solves the model and computes shock elasticities for the example economy in Section 4.4 for \rho = 1.0
+# Description: This script solves the model and computes shock elasticities for the example economy in Section 4.4 for \rho = 0.67, 1.5 with stochastic volatility.
 
 #### Parameter Configuration Arrays: each array contains the values of the parameters for the different scenarios
 Deltaarray=(1.0)
@@ -8,12 +8,6 @@ gammaarray=(1.0 8.0)
 deltaarray=(0.01 0.01 0.015 0.015)
 rhoarray=(0.67 1.5 0.67 1.5)
 alphaarray=(0.0819 0.108 0.08987 0.116)
-
-#### Script Names: "solve_name" solves the model; "elasticity_name" computes shock elasticities;
-#"elasticity_decomposition_name" computes the uncertainty component of shock elasticities
-solve_name="main_onecapital.jl"
-elasticity_name="main_pde_shock_elasticity.py"
-
 
 # Run Model Execution
 # Loop through all configurations and execute the models.
@@ -52,15 +46,15 @@ for Delta in ${Deltaarray[@]}; do
 #SBATCH --mem=15G
 
 module load julia/1.7.3
-module load python/anaconda-2020.11
+module load python/anaconda-2022.05
 
 echo "\$SLURM_JOB_NAME"
 
 echo "Program starts \$(date)"
 start_time=\$(date +%s)
 
-srun julia ./src/$solve_name  --Delta ${Delta} --delta ${delta} --gamma ${gamma} --rho ${rho} --action_name ${action_name} --alpha ${alpha}
-python3 ./src/$elasticity_name --Delta ${Delta} --delta ${delta} --gamma ${gamma} --rho ${rho} --action_name ${action_name} --alpha ${alpha}
+srun julia ./src/main_onecapital.jl  --Delta ${Delta} --delta ${delta} --gamma ${gamma} --rho ${rho} --action_name ${action_name} --alpha ${alpha}
+python3 ./src/main_pde_shock_elasticity.py --Delta ${Delta} --delta ${delta} --gamma ${gamma} --rho ${rho} --action_name ${action_name} --alpha ${alpha}
 
 echo "Program ends \$(date)"
 end_time=\$(date +%s)

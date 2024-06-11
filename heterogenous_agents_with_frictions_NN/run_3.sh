@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Model RF / SG / PR Configuration
-# Description: This script configures and launches jobs for different model parameters using the BFGS optimization method.
+# Description: This script computs the shock elasticities for the three-dimensional RF / SG / PR economy in Section 5.3.1, 5.3.2, 5.3.3 using finite-difference method.
 
 #### Model Configuration Arrays
 # Model scenarios and their respective parameter values.
