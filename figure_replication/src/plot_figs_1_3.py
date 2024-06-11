@@ -29,6 +29,7 @@ def return_solution(rho, gamma, Delta, delta, alpha, action_name):
 action_name = "single_capital_with_stochastic_volatility"
 
 #Load Models
+print('Loading results...')
 try: 
     gamma_1_rho_067_delta_001 = return_solution(rho = 0.67, gamma = 1.0, Delta = 1.0, alpha = 0.0819, delta=0.01, action_name = action_name)
     gamma_1_rho_100_delta_001 = return_solution(rho = 1.0, gamma = 1.0, Delta = 1.0, alpha = 0.0922, delta=0.01, action_name = action_name)
@@ -87,7 +88,7 @@ axes[1,1].set_xlabel('years', fontsize=20)
 for ax in fig.axes:
     ax.grid(False)
 plt.tight_layout()
-plt.savefig('figure_1.pdf')
+plt.savefig('figures/figure_1.pdf')
 
 #Figure 2
 print("Figure 2")
@@ -128,7 +129,7 @@ axes[1,1].set_xlabel('year', fontsize=20)
 for ax in fig.axes:
     ax.grid(False)
 plt.tight_layout()
-plt.savefig('figure_2.pdf')
+plt.savefig('figures/figure_2.pdf')
 
 #Figure 3
 print("Figure 3")
@@ -160,4 +161,4 @@ for ax in fig.axes:
     ax.grid(False)
     ax.set_xlabel('years', fontsize=20)
 plt.tight_layout()
-fig.savefig('figure_3.pdf')
+fig.savefig('figures/figure_3.pdf')

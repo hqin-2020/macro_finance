@@ -40,41 +40,42 @@ def return_solution(Delta, gamma, rho, kappa, beta1, beta2, alpha, action_name):
 
     return {'g_l':g_l, 'g_R':g_R, 'll':ll, 'zz':zz, 'ss':ss, 'rr':rr, 'elasticity_logimo':elasticity_logimo, 'elasticity_logc':elasticity_logc}
 
-dataname = 'twocap_model_with_stochastic_volatility'
+action_name = 'twocap_model_with_stochastic_volatility'
 
 #Load Models
+print('Loading results...')
 try: 
-    sym_gamma_1_rho_1_kappa_0 = return_solution(1.0, 1.0, 1.0, 0.0, 0.04, 0.04, 0.1844, dataname)
-    sym_gamma_4_rho_1_kappa_0 = return_solution(1.0, 4.0, 1.0, 0.0, 0.04, 0.04, 0.1844, dataname)
-    sym_gamma_8_rho_1_kappa_0 = return_solution(1.0, 8.0, 1.0, 0.0, 0.04, 0.04, 0.1844, dataname)
+    sym_gamma_1_rho_1_kappa_0 = return_solution(1.0, 1.0, 1.0, 0.0, 0.04, 0.04, 0.1844, action_name)
+    sym_gamma_4_rho_1_kappa_0 = return_solution(1.0, 4.0, 1.0, 0.0, 0.04, 0.04, 0.1844, action_name)
+    sym_gamma_8_rho_1_kappa_0 = return_solution(1.0, 8.0, 1.0, 0.0, 0.04, 0.04, 0.1844, action_name)
 
-    sym_gamma_1_rho_067_kappa_0 = return_solution(1.0, 1.0, 0.67, 0.0, 0.04, 0.04, 0.1638, dataname)
-    sym_gamma_4_rho_067_kappa_0 = return_solution(1.0, 4.0, 0.67, 0.0, 0.04, 0.04, 0.1638, dataname)
-    sym_gamma_8_rho_067_kappa_0 = return_solution(1.0, 8.0, 0.67, 0.0, 0.04, 0.04, 0.1638, dataname)
+    sym_gamma_1_rho_067_kappa_0 = return_solution(1.0, 1.0, 0.67, 0.0, 0.04, 0.04, 0.1638, action_name)
+    sym_gamma_4_rho_067_kappa_0 = return_solution(1.0, 4.0, 0.67, 0.0, 0.04, 0.04, 0.1638, action_name)
+    sym_gamma_8_rho_067_kappa_0 = return_solution(1.0, 8.0, 0.67, 0.0, 0.04, 0.04, 0.1638, action_name)
 
-    sym_gamma_1_rho_15_kappa_0 = return_solution(1.0, 1.0, 1.5, 0.0, 0.04, 0.04, 0.216, dataname)
-    sym_gamma_4_rho_15_kappa_0 = return_solution(1.0, 4.0, 1.5, 0.0, 0.04, 0.04, 0.216, dataname)
-    sym_gamma_8_rho_15_kappa_0 = return_solution(1.0, 8.0, 1.5, 0.0, 0.04, 0.04, 0.216, dataname)
+    sym_gamma_1_rho_15_kappa_0 = return_solution(1.0, 1.0, 1.5, 0.0, 0.04, 0.04, 0.216, action_name)
+    sym_gamma_4_rho_15_kappa_0 = return_solution(1.0, 4.0, 1.5, 0.0, 0.04, 0.04, 0.216, action_name)
+    sym_gamma_8_rho_15_kappa_0 = return_solution(1.0, 8.0, 1.5, 0.0, 0.04, 0.04, 0.216, action_name)
 
-    asym_gamma_1_rho_1_kappa_0 = return_solution(1.0, 1.0, 1.0, 0.0, 0.0, 0.08, 0.1844, dataname)
-    asym_gamma_4_rho_1_kappa_0 = return_solution(1.0, 4.0, 1.0, 0.0, 0.0, 0.08, 0.1844, dataname)
-    asym_gamma_8_rho_1_kappa_0 = return_solution(1.0, 8.0, 1.0, 0.0, 0.0, 0.08, 0.1844, dataname)
+    asym_gamma_1_rho_1_kappa_0 = return_solution(1.0, 1.0, 1.0, 0.0, 0.0, 0.08, 0.1844, action_name)
+    asym_gamma_4_rho_1_kappa_0 = return_solution(1.0, 4.0, 1.0, 0.0, 0.0, 0.08, 0.1844, action_name)
+    asym_gamma_8_rho_1_kappa_0 = return_solution(1.0, 8.0, 1.0, 0.0, 0.0, 0.08, 0.1844, action_name)
 
-    asym_gamma_1_rho_067_kappa_0 = return_solution(1.0, 1.0, 0.67, 0.0, 0.0, 0.08, 0.1638, dataname)
-    asym_gamma_4_rho_067_kappa_0 = return_solution(1.0, 4.0, 0.67, 0.0, 0.0, 0.08, 0.1638, dataname)
-    asym_gamma_8_rho_067_kappa_0 = return_solution(1.0, 8.0, 0.67, 0.0, 0.0, 0.08, 0.1638, dataname)
+    asym_gamma_1_rho_067_kappa_0 = return_solution(1.0, 1.0, 0.67, 0.0, 0.0, 0.08, 0.1638, action_name)
+    asym_gamma_4_rho_067_kappa_0 = return_solution(1.0, 4.0, 0.67, 0.0, 0.0, 0.08, 0.1638, action_name)
+    asym_gamma_8_rho_067_kappa_0 = return_solution(1.0, 8.0, 0.67, 0.0, 0.0, 0.08, 0.1638, action_name)
 
-    asym_gamma_1_rho_15_kappa_0 = return_solution(1.0, 1.0, 1.5, 0.0, 0.0, 0.08, 0.216, dataname)
-    asym_gamma_4_rho_15_kappa_0 = return_solution(1.0, 4.0, 1.5, 0.0, 0.0, 0.08, 0.216, dataname)
-    asym_gamma_8_rho_15_kappa_0 = return_solution(1.0, 8.0, 1.5, 0.0, 0.0, 0.08, 0.216, dataname)
+    asym_gamma_1_rho_15_kappa_0 = return_solution(1.0, 1.0, 1.5, 0.0, 0.0, 0.08, 0.216, action_name)
+    asym_gamma_4_rho_15_kappa_0 = return_solution(1.0, 4.0, 1.5, 0.0, 0.0, 0.08, 0.216, action_name)
+    asym_gamma_8_rho_15_kappa_0 = return_solution(1.0, 8.0, 1.5, 0.0, 0.0, 0.08, 0.216, action_name)
 
-    sym_gamma_1_rho_1_kappa_1 = return_solution(0.001, 1.0, 1.0, 1.0, 0.04, 0.04, 0.1844, dataname)
-    sym_gamma_4_rho_1_kappa_1 = return_solution(0.001, 4.0, 1.0, 1.0, 0.04, 0.04, 0.1844, dataname)
-    sym_gamma_8_rho_1_kappa_1 = return_solution(0.001, 8.0, 1.0, 1.0, 0.04, 0.04, 0.1844, dataname)
+    sym_gamma_1_rho_1_kappa_1 = return_solution(0.001, 1.0, 1.0, 1.0, 0.04, 0.04, 0.1844, action_name)
+    sym_gamma_4_rho_1_kappa_1 = return_solution(0.001, 4.0, 1.0, 1.0, 0.04, 0.04, 0.1844, action_name)
+    sym_gamma_8_rho_1_kappa_1 = return_solution(0.001, 8.0, 1.0, 1.0, 0.04, 0.04, 0.1844, action_name)
 
-    sym_gamma_1_rho_1_kappa_2 = return_solution(1.0, 1.0, 1.0, 2.0, 0.04, 0.04, 0.1844, dataname)
-    sym_gamma_4_rho_1_kappa_2 = return_solution(1.0, 4.0, 1.0, 2.0, 0.04, 0.04, 0.1844, dataname)
-    sym_gamma_8_rho_1_kappa_2 = return_solution(1.0, 8.0, 1.0, 2.0, 0.04, 0.04, 0.1844, dataname)
+    sym_gamma_1_rho_1_kappa_2 = return_solution(1.0, 1.0, 1.0, 2.0, 0.04, 0.04, 0.1844, action_name)
+    sym_gamma_4_rho_1_kappa_2 = return_solution(1.0, 4.0, 1.0, 2.0, 0.04, 0.04, 0.1844, action_name)
+    sym_gamma_8_rho_1_kappa_2 = return_solution(1.0, 8.0, 1.0, 2.0, 0.04, 0.04, 0.1844, action_name)
 except:
     print("Please run the model first.")
 
@@ -170,7 +171,7 @@ axes[0,0].legend(fontsize=12)
 axes[1,2].legend(fontsize=12)
 axes[2,2].legend(fontsize=12)
 plt.tight_layout()
-plt.savefig('figure_7.pdf')
+plt.savefig('figures/figure_7.pdf')
 
 #Figure 8
 print("Figure 8")
@@ -195,7 +196,7 @@ axes[1].set_xlabel('years', fontsize=20)
 plt.tight_layout()
 axes[0].grid(False)
 axes[1].grid(False)
-plt.savefig('figure_8.pdf')
+plt.savefig('figures/figure_8.pdf')
 
 #Figure 9
 print("Figure 9")
@@ -219,4 +220,4 @@ axes[1].set_xlabel('years', fontsize=20)
 plt.tight_layout()
 axes[0].grid(False)
 axes[1].grid(False)
-fig.savefig('figure_9.pdf')
+fig.savefig('figures/figure_9.pdf')

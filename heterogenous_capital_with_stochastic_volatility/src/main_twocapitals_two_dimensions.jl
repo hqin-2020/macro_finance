@@ -28,7 +28,7 @@ function parse_commandline()
             arg_type = Float64
             default = 0.1844
         "--kappa"
-            help = "capital elasticity of substitution"
+            help = "capital elasticity of substitution"  ## tau in the paper
             arg_type = Float64
             default = 0.0
         "--zeta"
@@ -67,27 +67,27 @@ outputdir = "./output/"*action_name*"/Delta_"*string(Delta)*"/beta1_"*string(bet
 isdir(outputdir) || mkpath(outputdir)
 
 ## Calibration
-delta = 0.01
-betaz = 0.056
-eta1 = -0.04
-eta2 = -0.04
-phi1 = 8.0
-phi2 = 8.0
-smean = 6.30e-06;
-sigma_k1 = [sqrt(2)*0.92, .0, .4] * sqrt(smean) * sqrt(12)
-sigma_k2 = [0, sqrt(2)*0.92, .4] * sqrt(smean) * sqrt(12)
-sigma_z =  [0, 0, 5.7] * sqrt(smean) * sqrt(12)
+delta = 0.01    ## discount rate
+betaz = 0.056   ## long run risk persistence (beta_1 in the paper)
+eta1 = 0.04     ## depreciation rate (eta_k in the paper)
+eta2 = 0.04     ## depreciation rate (eta_k in the paper)
+phi1 = 8.0      ## adjustment cost
+phi2 = 8.0      ## adjustment cost
+smean = 6.30e-06;   ## stochastic volatility mean, we abstract this process as a constant scaling factor
+sigma_k1 = [sqrt(2)*0.92, .0, .4] * sqrt(smean) * sqrt(12)  ## shock exposure in the capital 1 evolution process
+sigma_k2 = [0, sqrt(2)*0.92, .4] * sqrt(smean) * sqrt(12)   ## shock exposure in the capital 2 evolution process
+sigma_z =  [0, 0, 5.7] * sqrt(smean) * sqrt(12)             ## shock exposure in the long run risk evolution process
 
 ## Construct state space grid
-II, JJ = trunc(Int,1001), trunc(Int,201);
+II, JJ = trunc(Int,1001), trunc(Int,201);   ## number of grid points for the endougenous state variable (log K2 - logK1) and the long run risk state variable (\hat Y, z1 in the paper)
 if kappa == 0.0
-    rmax = 6.0;
+    rmax = 6.0;             ## upper bound of the endougenous state variable (log K2 - logK1)
 else 
-    rmax = 1.0;
+    rmax = 1.0;             ## upper bound of the endougenous state variable (log K2 - logK1)
 end
-rmin = -rmax;
-zmax = 1.0;
-zmin = -zmax;
+rmin = -rmax;               ## lower bound of the endougenous state variable (log K2 - logK1)
+zmax = 1.0;                 ## upper bound of the long run risk state variable
+zmin = -zmax;               ## lower bound of the long run risk state variable
 
 maxit = 200000;     # maximum number of iterations in the HJB loop
 crit  = 10e-6;      # criterion HJB loop
@@ -136,17 +136,17 @@ println("Convegence time (minutes): ", times/60)
 g = stationary_distribution(A, grid)
 
 ## Control variables
-mu_1 = (mu_1_F + mu_1_B)/2.;
-mu_r = (mu_r_F + mu_r_B)/2.;
-mu_z = (mu_z_F + mu_z_B)/2.;
-h1 = (h1_F + h1_B)/2.;
-h2 = (h2_F + h2_B)/2.;
-hz = (hz_F + hz_B)/2.;
-d1 = (d1_F + d1_B)/2;
-d2 = (d2_F + d2_B)/2;
+h1 = (h1_F + h1_B)/2.;  ## Robust control
+h2 = (h2_F + h2_B)/2.;  ## Robust control
+hz = (hz_F + hz_B)/2.;  ## Robust control
+mu_1 = (mu_1_F + mu_1_B)/2.;    ## drift term for composite capital evolution process (K^a process in the paper)
+mu_r = (mu_r_F + mu_r_B)/2.;    ## drift term for the endougenous state variable (log K2 - logK1) evolution process
+mu_z = (mu_z_F + mu_z_B)/2.;    ## drift term for the long run risk evolution process
+d1 = (d1_F + d1_B)/2;           ## Investment capital 1 ratio
+d2 = (d2_F + d2_B)/2;           ## Investment capital 2 ratio
 
-r = range(rmin, stop=rmax, length=II);    # capital ratio vector
-rr = r * ones(1, JJ);
+r = range(rmin, stop=rmax, length=II);    
+rr = r * ones(1, JJ);                     
 IJ = II*JJ;
 k1a = zeros(II,JJ)
 k2a = zeros(II,JJ)
@@ -157,7 +157,7 @@ for i=1:IJ
 end
 d1k = d1.*k1a
 d2k = d2.*k2a
-c = alpha*ones(II,JJ) - d1k - d2k
+c = alpha*ones(II,JJ) - d1k - d2k        ## consumption capital ratio
 
 ## Save results
 results = Dict(
@@ -174,5 +174,6 @@ results = Dict(
 "cons" => c, "h1" => h1, "h2" => h2, "hz" => hz,"d1" => d1, "d2" => d2,"k1a" => k1a, "k2a"=> k2a,
 "V0" => V0, "V" => V, "Vr" => Vr, "Vz" => Vz, "val" => val,"dr" => dr, "dz" => dz,
 "mu_1" => mu_1, "mu_r" => mu_r, "mu_z" => mu_z,
-"g" => g)
+"g" => g, # stationary density
+)
 npzwrite(outputdir*"res.npz", results)

@@ -214,8 +214,8 @@ function drifts!(mu_1::Array{Float64, 3},
         dkadk1dk2 = (kappa-1)*zeta*(1-zeta)*(k1a).^(-kappa+1)*(k2a).^(-kappa+1);
         dkadk2dk2 = (kappa-1)*zeta.^2*(k2a).^(-2*kappa+2) - kappa*(1-zeta)*(k2a).^(-kappa+1)
 
-        mu_k1 = log(1+phi1*d1[i])/phi1 + beta1*z + eta1;
-        mu_k2 = log(1+phi2*d2[i])/phi2 + beta2*z + eta2;
+        mu_k1 = log(1+phi1*d1[i])/phi1 + beta1*z - eta1;
+        mu_k2 = log(1+phi2*d2[i])/phi2 + beta2*z - eta2;
 
         mu_r[i] = mu_k2 - mu_k1 - (s/2)*(dot(s_k2,s_k2) - dot(s_k1,s_k1)) 
 

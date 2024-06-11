@@ -149,7 +149,7 @@ dent = res['g']*zscale
 
 # Compute the drift and diffusion terms from the model solution
 kdrift = np.log(1+res['d']*phi)/phi + beta*Z - eta*np.ones(res['I']) - np.dot(sigma_k,sigma_k)/2
-kdiffusion = [sigma_k[i]*np.ones(res['I']) for i in range(np.size(sigma_k))]
+kdiffusion = [sigma_k[i]*np.ones(res['I']) for i in range(np.size(sigma_k))]      
 
 zdrift = -a11*Z 
 zdiffusion = [sigma_z[i]*np.ones(res['I']) for i in range(np.size(sigma_z))]
@@ -167,7 +167,7 @@ loghsdiffusion = [H[i]+S[i] for i in range(len(logc_diffusion))]
 statespace = [np.unique(Z)]
 T = 45
 dt = 1
-boundary_condition = {'natural':True}
+boundary_condition = {'natural':True} ## natural boundary condition (see mfrSuite Readme p32/p37 for details)
 marginal_quantile = marginal_quantile_func_factory(dent, [np.unique(Z)], ['Z'])
 initial_points = [[marginal_quantile['Z'](0.1)],\
                   [marginal_quantile['Z'](0.5)],\

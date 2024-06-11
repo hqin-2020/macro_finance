@@ -52,15 +52,15 @@ args = parser.parse_args()
 action_name = args.action_name
 
 ## Domain parameters
-nWealth           = args.nWealth
-nZ                = args.nZ
-nV                = args.nV
-V_bar             = args.V_bar
-sigma_K_norm      = args.sigma_K_norm
-sigma_Z_norm      = args.sigma_Z_norm
-sigma_V_norm      = args.sigma_V_norm
-wMin              = args.wMin
-wMax              = args.wMax
+nWealth           = args.nWealth         ## Number of points in the experts wealth share validation sets
+nZ                = args.nZ              ## Number of points in the long run risk validation sets
+nV                = args.nV              ## Number of points in the stochastic volatility validation sets
+V_bar             = args.V_bar           ## Mean of stochastic volatility
+sigma_K_norm      = args.sigma_K_norm    ## Normalized standard deviation of the experts wealth share exposure matrix
+sigma_Z_norm      = args.sigma_Z_norm    ## Normalized standard deviation of the long run risk exposure matrix
+sigma_V_norm      = args.sigma_V_norm    ## Normalized standard deviation of the stochastic volatility exposure matrix
+wMin              = args.wMin            ## Minimum wealth share
+wMax              = args.wMax            ## Maximum wealth share
 
 domain_list       = [nWealth, nZ, nV, V_bar, sigma_K_norm, sigma_Z_norm, sigma_V_norm, wMin, wMax]
 wMin, wMax = [str("{:0.3f}".format(param)).replace('.', '', 1)  for param in [wMin, wMax]]
@@ -68,29 +68,29 @@ domain_folder = 'nW_' + str(nWealth) + '_nZ_' + str(nZ) + '_nV_' + str(nV) + '_w
 nDims = 3
 
 ## Model parameters
-chiUnderline      = args.chiUnderline
-a_e               = args.a_e
-a_h               = args.a_h
-gamma_e           = args.gamma_e
-gamma_h           = args.gamma_h
-rho_e             = args.rho_e
-rho_h             = args.rho_h
-delta_e           = args.delta_e
-delta_h           = args.delta_h
-lambda_d          = args.lambda_d
-nu                = args.nu
-shock_expo        = args.shock_expo
+chiUnderline      = args.chiUnderline   ## experts equity retention lower bound
+a_e               = args.a_e            ## experts productivity
+a_h               = args.a_h            ## households productivity
+gamma_e           = args.gamma_e        ## experts risk aversion
+gamma_h           = args.gamma_h        ## households risk aversion
+rho_e             = args.rho_e          ## experts inverse IES
+rho_h             = args.rho_h          ## households inverse IES
+delta_e           = args.delta_e        ## experts discount factor
+delta_h           = args.delta_h        ## households discount factor
+lambda_d          = args.lambda_d       ## death rate
+nu                = args.nu             ## fraction of reborn as experts
+shock_expo        = args.shock_expo     ## shock exposure matrix scheme
 parameter_list    = [chiUnderline, a_e, a_h, gamma_e, gamma_h, rho_e, rho_h, delta_e, delta_h, lambda_d, nu]
 chiUnderline, a_e, a_h, gamma_e, gamma_h, rho_e, rho_h, delta_e, delta_h, lambda_d, nu = [str("{:0.3f}".format(param)).replace('.', '', 1)  for param in parameter_list]
 model_folder = 'chiUnderline_' + chiUnderline + '_a_e_' + a_e + '_a_h_' + a_h  + '_gamma_e_' + gamma_e + '_gamma_h_' + gamma_h + '_rho_e_' + rho_e + '_rho_h_' + rho_h + '_delta_e_' + delta_e + '_delta_h_' + delta_h + '_lambda_d_' + lambda_d + '_nu_' + nu
 
 ## NN layer parameters
-n_layers          = args.n_layers
-units             = args.units
-points_size       = args.points_size
-iter_num          = args.iter_num
-seed              = args.seed
-penalization      = args.penalization
+n_layers          = args.n_layers       ## Number of layers in the neural network
+units             = args.units          ## Number of units in each layer
+points_size       = args.points_size    ## Number of points in each batch, 2^points_size is the batch size
+iter_num          = args.iter_num       ## Number of taining batches
+seed              = args.seed           ## Random seed
+penalization      = args.penalization   ## Penalization parameter for the kappa policy function
 layer_folder =  'seed_' + str(seed) + '_n_layers_' + str(n_layers) + '_units_' + str(units) +'_points_size_' + str(points_size) + '_iter_num_' + str(iter_num) + '_penalization_' + str(penalization)
 
 ## Working directory

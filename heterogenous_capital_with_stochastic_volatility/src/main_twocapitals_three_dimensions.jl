@@ -28,7 +28,7 @@ function parse_commandline()
             arg_type = Float64
             default = 0.1844
         "--kappa"
-            help = "capital elasticity of substitution"
+            help = "capital elasticity of substitution" ## tau in the paper
             arg_type = Float64
             default = 0.0
         "--zeta"
@@ -67,32 +67,31 @@ outputdir = "./output/"*action_name*"/Delta_"*string(Delta)*"/beta1_"*string(bet
 isdir(outputdir) || mkpath(outputdir)
 
 ## Calibration
-delta = 0.01
-a11 = 0.056
-a22 = 0.194
-eta1 = -0.04
-eta2 = -0.04
-phi1 = 8.0
-phi2 = 8.0
-smean = 6.30e-06;
-sigmay = 0.00031
-sigma_k1 = [sqrt(2)*0.92,.0, .4,  0.0]  * sqrt(12)
-sigma_k2 = [0, sqrt(2)*0.92, .4,  0.0]  * sqrt(12)
-sigma_z =  [0.0  , 0.0,     5.7,  0.0]  * sqrt(12)
-sigma_s =  [0.0  , 0.0,     0.0, sigmay]* sqrt(12);
+delta = 0.01    ## discount rate
+a11 = 0.056     ## long run risk persistence (beta_1 in the paper)
+a22 = 0.194     ## stochastic volatility persistence (beta_2 in the paper)
+eta1 = 0.04     ## depreciation rate (eta_k in the paper)
+eta2 = 0.04     ## depreciation rate (eta_k in the paper)
+phi1 = 8.0      ## adjustment cost
+phi2 = 8.0      ## adjustment cost
+smean = 6.30e-06;    ## stochastic volatility mean
+sigma_k1 = [sqrt(2)*0.92,.0, .4,  0.0]  * sqrt(12)      ## shock exposure in the capital 1 evolution process
+sigma_k2 = [0, sqrt(2)*0.92, .4,  0.0]  * sqrt(12)      ## shock exposure in the capital 2 evolution process
+sigma_z =  [0.0  , 0.0,     5.7,  0.0]  * sqrt(12)      ## shock exposure in the long run risk evolution process
+sigma_s =  [0.0  , 0.0,     0.0, 0.00031]* sqrt(12);    ## shock exposure in the stochastic volatility process
 
 ## Construct state space grid
-II, JJ, SS = trunc(Int,301), trunc(Int,41), trunc(Int,21);
+II, JJ, SS = trunc(Int,301), trunc(Int,41), trunc(Int,21); ## number of grid points for the endougenous state variable (log K2 - logK1), the long run risk state variable and the stochastic volatility state variable, (\hat Y, z1 and z2 in the paper)
 if kappa == 0.0
-    rmax = 6.0;
+    rmax = 6.0;         ## upper bound of the endougenous state variable (log K2 - logK1)
 else 
-    rmax = 1.0;
+    rmax = 1.0;         ## upper bound of the endougenous state variable (log K2 - logK1)
 end
-rmin = -rmax;
-zmax = 1.0;
-zmin = -zmax;
-smax = 2e-05;
-smin = 5e-07;
+rmin = -rmax;           ## lower bound of the endougenous state variable (log K2 - logK1)
+zmax = 1.0;             ## upper bound of the long run risk state variable
+zmin = -zmax;           ## lower bound of the long run risk state variable
+smax = 2e-05;           ## upper bound of the stochastic volatility state variable
+smin = 5e-07;           ## lower bound of the stochastic volatility state variable
 
 maxit = 200000;        # maximum number of iterations in the HJB loop
 crit  = 10e-6;         # criterion HJB loop
@@ -108,6 +107,7 @@ model = TwoCapitalEconomy(baseline1, baseline2, technology1, technology2);
 grid = Grid_rz(rmin, rmax, II, zmin, zmax, JJ, smin, smax, SS);
 params = FinDiffMethod(maxit, crit, Delta);
 
+## Initialize value function and make a guess for consumption-capital ratio
 preload_action = "twocap_model_without_stochastic_volatility"
 if beta1 == 0.04
     preload_Delta = 1.0
@@ -163,16 +163,16 @@ println("Convegence time (minutes): ", times/60)
 g = stationary_distribution(A, grid)
 
 # Construct drift terms under the baseline
-mu_1 = (mu_1_F + mu_1_B)/2.;
-mu_r = (mu_r_F + mu_r_B)/2.;
-h1 = (h1_F + h1_B)/2.;
-h2 = (h2_F + h2_B)/2.;
-hz = (hz_F + hz_B)/2.;
-hs = (hs_F + hs_B)/2.;
-d1 = (d1_F + d1_B)/2;
-d2 = (d2_F + d2_B)/2;
+mu_1 = (mu_1_F + mu_1_B)/2.;    ## drift term for composite capital evolution process
+mu_r = (mu_r_F + mu_r_B)/2.;    ## drift term for the endougenous state variable (log K2 - logK1) evolution process
+h1 = (h1_F + h1_B)/2.;          ## Robust control
+h2 = (h2_F + h2_B)/2.;          ## Robust control
+hz = (hz_F + hz_B)/2.;          ## Robust control
+hs = (hs_F + hs_B)/2.;          ## Robust control
+d1 = (d1_F + d1_B)/2;           ## Investment capital 1 ratio
+d2 = (d2_F + d2_B)/2;           ## Investment capital 2 ratio
 
-r = range(rmin, stop=rmax, length=II);    # capital ratio vector
+r = range(rmin, stop=rmax, length=II);    
 rr = r * ones(1, JJ);
 rrr = ones(II, JJ, SS)
 for i = 1:SS
@@ -188,7 +188,7 @@ for i=1:IJS
 end
 d1k = d1.*k1a
 d2k = d2.*k2a
-c = alpha*ones(II,JJ,SS) - d1k - d2k
+c = alpha*ones(II,JJ,SS) - d1k - d2k    ## consumption capital ratio
 
 ## Save results
 results = Dict(
@@ -206,6 +206,6 @@ results = Dict(
 "V0" => V0, "V" => V, "Vr" => Vr, "Vz" => Vz, "Vs" => Vs, "dr" => dr, "dz" => dz,
 "d1" => d1, "d2" => d2, "d1k" => d1k, "d2k"=> d2k,
 "mu_1" => mu_1, "mu_r" => mu_r, "mu_z" => mu_z, "mu_s" => mu_s,
-"g" => g,
+"g" => g, # stationary density
 )
 npzwrite(outputdir*"res.npz", results)

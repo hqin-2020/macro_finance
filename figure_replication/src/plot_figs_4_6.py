@@ -75,6 +75,7 @@ def add_arrow(line, position=None, direction='right', size=15, color=None):
 
 
 #Load Models
+print('Loading results...')
 try: 
     gamma_1_q_20_rho_1_parameters_2 = return_solution(gamma = 1.0, twoparameter= 0, action_name = "onecap_model_with_structure_ambiguity")
     gamma_4_q_20_rho_1_parameters_2 = return_solution(gamma = 4.0, twoparameter= 0, action_name = "onecap_model_with_structure_ambiguity")
@@ -249,7 +250,7 @@ ax[2].set_xlim(xmin,xmax)
 ax[2].set_ylim(ymin,ymax)
 
 plt.tight_layout() 
-fig.savefig('figure_4.pdf')
+fig.savefig('figures/figure_4.pdf')
 
 #Figure 5
 print("Figure 5")
@@ -308,7 +309,7 @@ ax12.set_yticks([])
 ax12.set_yticklabels([])
 
 plt.tight_layout()
-fig.savefig('figure_5.pdf')
+fig.savefig('figures/figure_5.pdf')
 
 #Figure 6
 print("Figure 6")
@@ -348,4 +349,4 @@ ax[0,0].set_xlabel('')
 ax[0,1].set_xlabel('')
 
 fig.tight_layout()
-fig.savefig('figure_6.pdf')
+fig.savefig('figures/figure_6.pdf')

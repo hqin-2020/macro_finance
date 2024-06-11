@@ -177,7 +177,7 @@ logndiffusion = [(1-gamma)*logv_diffusion[i] for i in range(len(logc_diffusion))
 statespace = [np.unique(Z),np.unique(Y)]
 T = 45
 dt = 1
-boundary_condition = {'natural':True}
+boundary_condition = {'natural':True} ## natural boundary condition (see mfrSuite Readme p32/p37 for details)
 marginal_quantile = marginal_quantile_func_factory(dent, [np.unique(Z), np.unique(Y)], ['Z','Y'])
 initial_points = [[marginal_quantile['Z'](0.5),marginal_quantile['Y'](0.1)],
                   [marginal_quantile['Z'](0.5),marginal_quantile['Y'](0.5)],

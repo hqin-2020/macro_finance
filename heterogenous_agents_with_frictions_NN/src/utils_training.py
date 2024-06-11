@@ -11,6 +11,10 @@ tf.config.set_visible_devices([], 'GPU')
 @tf.function 
 def calc_var(NN, W, Z, V, params):
 
+    """
+    This function calculates equilibrium variables for the model given the neural network
+    """
+
     X = tf.concat([W,Z,V], axis=1)
     data_generator = NN(X)
     logXiE, logXiH, kappa = data_generator[:,0:1], data_generator[:,1:2], data_generator[:,2:3]
@@ -279,6 +283,10 @@ def calc_var(NN, W, Z, V, params):
 @tf.function 
 def HJB_loss(NN, W, Z, V, params):
     
+    """
+    This function calculates the loss function for the experts, households HJB equations and first order conditions w.r.t kappa policy function
+    """
+
     X = tf.concat([W,Z,V], axis=1)
 
     a_e = params['a_e']
@@ -429,6 +437,10 @@ def HJB_loss(NN, W, Z, V, params):
 
 def function_factory(model, loss, W, Z, V, params, loss_type, targets, penalization, funcname):
 
+    """
+    This function creates a function that calculates the loss and gradients for the BFGS algorithm
+    """
+    
     ## Obtain the shapes of all trainable parameters in the model
     shapes = tf.shape_n(model.trainable_variables)
     n_tensors = len(shapes)
@@ -494,20 +506,18 @@ def function_factory(model, loss, W, Z, V, params, loss_type, targets, penalizat
     return f
   
 
-## Training step BFGS
 def training_step_BFGS(NN_func, W, Z, V, params, targets, penalization, maxiter, maxfun, gtol, maxcor, maxls, ftol):
+    """
+    This function trains the neural network using the BFGS algorithm
+    """
 
-    ## Train kappa
     loss_fun = tf.keras.losses.MeanSquaredError()
     NN_func_adj = function_factory(NN_func, HJB_loss, W, Z, V, params, loss_fun, targets, penalization, 'BFGS')
     init_params = tf.dynamic_stitch(NN_func_adj.idx, NN_func.trainable_variables)
-
     start = time.time()
     results = optimize.minimize(NN_func_adj, x0 = init_params.numpy(), method = 'L-BFGS-B', jac = True, options = {'maxiter': maxiter, 'maxfun': maxfun, 'gtol': gtol, 'maxcor': maxcor, 'maxls': maxls, 'ftol' : ftol})
     end = time.time()
     tf.print('Elapsed time {:.4f} sec'.format(end - start))
-    # after training, the final optimized parameters are still in results.position
-    # so we have to manually put them back to the model
     NN_func_adj.assign_new_model_parameters(results.x)
 
     return results

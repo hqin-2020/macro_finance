@@ -4,6 +4,8 @@ warnings.filterwarnings("ignore")
 tf.get_logger().setLevel('ERROR')
 tf.config.set_visible_devices([], 'GPU')
 
+## modified from https://github.com/alialaradi/DeepGalerkinMethod
+
 #%% Fully connected (dense) layer - modification of Keras layer class
    
 class DenseLayer(tf.keras.layers.Layer):

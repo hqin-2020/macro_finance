@@ -271,7 +271,7 @@ logw_drift = muW/W_state - 1/(2*W_state**2) *(np.sum([sigmaW[i]**2 for i in rang
 logw_diffusion = [sigmaW[i]/W_state for i in range(len(sigmaW))]
 
 bc = {}
-bc['natural'] = True
+bc['natural'] = True ## natural boundary condition (see mfrSuite Readme p32/p37 for details)
 
 statespace = [np.unique(W), np.unique(Z), np.unique(V)]
 T = 45

@@ -12,7 +12,7 @@ plt.rcParams['axes.formatter.useoffset'] = True
 from utils_pde_shock_elasticity import computeElas
 
 #Return neural networks solutions
-def return_solution(shock_expo, seed, chiUnderline, a_e, a_h, gamma_e, gamma_h, psi_e, psi_h, delta_e, delta_h, lambda_d, nu,n_layers,units,iter_num, points_size,penalization, action_name):
+def return_NN_solution(shock_expo, seed, chiUnderline, a_e, a_h, gamma_e, gamma_h, psi_e, psi_h, delta_e, delta_h, lambda_d, nu,n_layers,units,iter_num, points_size,penalization, action_name):
         
         wMin = 0.01
         wMax = 0.99
@@ -30,28 +30,23 @@ def return_solution(shock_expo, seed, chiUnderline, a_e, a_h, gamma_e, gamma_h, 
         layer_folder =  'seed_' + str(seed) + '_n_layers_' + str(n_layers) + '_units_' + str(units) +'_points_size_' + str(points_size) + '_iter_num_' + str(iter_num) + '_penalization_' + str(penalization)
 
         outputdir = '../heterogenous_agents_with_frictions_NN/output/' + action_name + '/' + shock_expo + '/'+ domain_folder + '/' + model_folder + '/' + layer_folder + '/'
-        print(outputdir)
 
         eva_V_10 = np.load(outputdir + 'eva_V_10.npz')
         eva_V_50 = np.load(outputdir + 'eva_V_50.npz')
         eva_V_90 = np.load(outputdir + 'eva_V_90.npz')
 
-        print('HJBE_validation_MSE: ', np.load(outputdir + 'HJBE_validation_MSE.npy'))
-        print('HJBH_validation_MSE: ', np.load(outputdir + 'HJBH_validation_MSE.npy'))
-        print('kappa_validation_MSE: ', np.load(outputdir + 'kappa_validation_MSE.npy'))
-
         try:
-                elasticity_logw = np.load(outputdir + 'elasticity_logw.npz', allow_pickle=True)
+            elasticity_logw = np.load(outputdir + 'elasticity_logw.npz', allow_pickle=True)
         except:
             elasticity_logw = None
         try:
             uncertaintye_priceelas = np.load(outputdir + 'uncertaintye_priceelas.npz', allow_pickle=True)
         except:
-                uncertaintye_priceelas = None
+            uncertaintye_priceelas = None
         try:
             uncertaintyh_priceelas = np.load(outputdir + 'uncertaintyh_priceelas.npz', allow_pickle=True)
         except:
-                uncertaintyh_priceelas = None
+            uncertaintyh_priceelas = None
 
         W = np.load(outputdir + 'W_NN.npy')
         W = pd.DataFrame(W, columns = ['W'])
@@ -101,22 +96,6 @@ def return_fdm_solution(shock_expo, dt, nW, chiUnderline, a_e, a_h, gamma_e, gam
 
     folder_name = ('../heterogenous_agents_with_frictions_FDM/output/' + action_name + '/' + shock_expo + '/dt_'+str(dt)+'/nW_'+str(nW)+'_nZ_'+str(nZ)+'/chiUnderline_' + chiUnderline_t + '/a_e_' + a_e_t + '_a_h_' + a_h_t  + '/gamma_e_' + gamma_e_t + '_gamma_h_' + gamma_h_t + '/rho_e_' + rho_e_t + '_rho_h_' + rho_h_t + '/delta_e_' + delta_e_t + '_delta_h_' + delta_h_t + '/lambda_d_' + lambda_d_t + '_nu_' + nu_t)
 
-    def extract_lines_from_file(file_path, phrase):
-        extracted_lines = []
-        with open(file_path, 'r') as file:
-            for line in file:
-                if line.startswith(phrase):
-                    extracted_lines.append(line.strip())
-        return extracted_lines
-
-    file_path = folder_name + '/log.txt' 
-    phrase = 'END OF ITERATIONS:'
-    extracted_lines = extract_lines_from_file(file_path, phrase)
-    try:
-        print('rho_e: ', rho_e, ', rho_h: ', rho_h, ', gamma_e: ', gamma_e, ', gamma_h: ', gamma_h, ', a_e: ', a_e, ', a_h: ', a_h, ', chiUnderline: ', chiUnderline, ', results:', extracted_lines[0])
-    except:
-        print('rho_e: ', rho_e, ', rho_h: ', rho_h, ', gamma_e: ', gamma_e, ', gamma_h: ', gamma_h, ', a_e: ', a_e, ', a_h: ', a_h, ', chiUnderline: ', chiUnderline, ', running in progress')
-    
     def read_dat(filename):
         with open(folder_name + '/'+filename+'.dat', 'r') as file:
             data = [float(line.strip()) for line in file if line.strip()]
@@ -147,27 +126,28 @@ def return_fdm_solution(shock_expo, dt, nW, chiUnderline, a_e, a_h, gamma_e, gam
             
 
 
-#Load Neural Network Models
+#Load Neural Network Results
+print('Loading results...')
 try: 
-    modelRF_lower = return_solution(shock_expo = 'lower_triangular', seed = 256, chiUnderline = 1.0, a_e = 0.0922, a_h = 0.0, gamma_e = 4.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
-    modelRF_upper = return_solution(shock_expo = 'upper_triangular', seed = 256, chiUnderline = 1.0, a_e = 0.0922, a_h = 0.0, gamma_e = 4.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
-    modelSG_lower = return_solution(shock_expo = 'lower_triangular', seed = 256, chiUnderline = 0.2, a_e = 0.0922, a_h = 0.0, gamma_e = 4.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
-    modelSG_upper = return_solution(shock_expo = 'upper_triangular', seed = 256, chiUnderline = 1.0, a_e = 0.0922, a_h = 0.0, gamma_e = 4.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
-    modelPR_lower = return_solution(shock_expo = 'lower_triangular', seed = 256, chiUnderline = 0.00001, a_e = 0.0922, a_h = 0.0, gamma_e = 4.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
-    modelPR_upper = return_solution(shock_expo = 'upper_triangular', seed = 256, chiUnderline = 0.00001, a_e = 0.0922, a_h = 0.0, gamma_e = 4.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
+    modelRF_lower = return_NN_solution(shock_expo = 'lower_triangular', seed = 256, chiUnderline = 1.0, a_e = 0.0922, a_h = 0.0, gamma_e = 4.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
+    modelRF_upper = return_NN_solution(shock_expo = 'upper_triangular', seed = 256, chiUnderline = 1.0, a_e = 0.0922, a_h = 0.0, gamma_e = 4.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
+    modelSG_lower = return_NN_solution(shock_expo = 'lower_triangular', seed = 256, chiUnderline = 0.2, a_e = 0.0922, a_h = 0.0, gamma_e = 4.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
+    modelSG_upper = return_NN_solution(shock_expo = 'upper_triangular', seed = 256, chiUnderline = 1.0, a_e = 0.0922, a_h = 0.0, gamma_e = 4.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
+    modelPR_lower = return_NN_solution(shock_expo = 'lower_triangular', seed = 256, chiUnderline = 0.00001, a_e = 0.0922, a_h = 0.0, gamma_e = 4.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
+    modelPR_upper = return_NN_solution(shock_expo = 'upper_triangular', seed = 256, chiUnderline = 0.00001, a_e = 0.0922, a_h = 0.0, gamma_e = 4.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
 
-    modelRF_lower_gammae_3 = return_solution(shock_expo = 'lower_triangular',seed = 256, chiUnderline = 1.0, a_e = 0.0922, a_h = 0.0, gamma_e = 3.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
-    modelRF_lower_gammae_5 = return_solution(shock_expo = 'lower_triangular',seed = 256, chiUnderline = 1.0, a_e = 0.0922, a_h = 0.0, gamma_e = 5.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
+    modelRF_lower_gammae_3 = return_NN_solution(shock_expo = 'lower_triangular',seed = 256, chiUnderline = 1.0, a_e = 0.0922, a_h = 0.0, gamma_e = 3.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
+    modelRF_lower_gammae_5 = return_NN_solution(shock_expo = 'lower_triangular',seed = 256, chiUnderline = 1.0, a_e = 0.0922, a_h = 0.0, gamma_e = 5.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
 
-    modelSG_lower_gammae_3 = return_solution(shock_expo = 'lower_triangular',seed = 256, chiUnderline = 0.2, a_e = 0.0922, a_h = 0.0, gamma_e = 3.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
-    modelSG_lower_gammae_5 = return_solution(shock_expo = 'lower_triangular',seed = 256, chiUnderline = 0.2, a_e = 0.0922, a_h = 0.0, gamma_e = 5.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
+    modelSG_lower_gammae_3 = return_NN_solution(shock_expo = 'lower_triangular',seed = 256, chiUnderline = 0.2, a_e = 0.0922, a_h = 0.0, gamma_e = 3.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
+    modelSG_lower_gammae_5 = return_NN_solution(shock_expo = 'lower_triangular',seed = 256, chiUnderline = 0.2, a_e = 0.0922, a_h = 0.0, gamma_e = 5.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
 
-    modelPR_lower_gammae_3 = return_solution(shock_expo = 'lower_triangular',seed = 256, chiUnderline = 0.00001, a_e = 0.0922, a_h = 0.0, gamma_e = 3.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
-    modelPR_lower_gammae_5 = return_solution(shock_expo = 'lower_triangular',seed = 256, chiUnderline = 0.00001, a_e = 0.0922, a_h = 0.0, gamma_e = 5.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
+    modelPR_lower_gammae_3 = return_NN_solution(shock_expo = 'lower_triangular',seed = 256, chiUnderline = 0.00001, a_e = 0.0922, a_h = 0.0, gamma_e = 3.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
+    modelPR_lower_gammae_5 = return_NN_solution(shock_expo = 'lower_triangular',seed = 256, chiUnderline = 0.00001, a_e = 0.0922, a_h = 0.0, gamma_e = 5.0, gamma_h = 8.0, psi_e = 1.0, psi_h = 1.0, delta_e = 0.0115, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, n_layers = 2, units = 16, iter_num = 5, points_size = 10, penalization = 10000, action_name = 'neural_net')
 except:
     print("Please run the model first.")
 
-#Load Finite Difference Models
+#Load Finite Difference Results
 try:
     model_070_lower_triangular = return_fdm_solution(shock_expo = 'lower_triangular',dt = 0.01, nW = 1800, nZ = 30, chiUnderline = 1.0, a_e = 0.0922, a_h = 0.070, gamma_e = 2.0, gamma_h = 2.0, rho_e = 1.0, rho_h = 1.0, delta_e = 0.03, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, action_name = 'finite_difference')
     model_080_lower_triangular = return_fdm_solution(shock_expo = 'lower_triangular',dt = 0.01, nW = 1800, nZ = 30, chiUnderline = 1.0, a_e = 0.0922, a_h = 0.080, gamma_e = 2.0, gamma_h = 2.0, rho_e = 1.0, rho_h = 1.0, delta_e = 0.03, delta_h = 0.01, lambda_d = 0.0, nu = 0.1, action_name = 'finite_difference')
@@ -223,7 +203,7 @@ for ax in axes.flatten():
 
 plt.subplots_adjust(wspace=0.3, hspace=0.25)
 plt.tight_layout()
-plt.savefig("figure_10.pdf")
+fig.savefig("figures/figure_10.pdf")
 
 #Figure 11
 print('Figure 11')
@@ -232,8 +212,8 @@ W_large = modelPR_lower['eva_V_50']['W']
 W_small = np.unique(modelPR_lower['W'].values)
 
 
-sns.lineplot(x=W_large, y=modelPR_lower_gammae_3['eva_V_10']['PiE_NN'][:,0], ax = axes[0,0], label=r'$Z^2$ 10th percentile', color='#1f77b4')
-sns.lineplot(x=W_large, y=modelPR_lower_gammae_3['eva_V_90']['PiE_NN'][:,0], ax = axes[0,0], label=r'$Z^2$ 90th percentile', color='#d62728')
+sns.lineplot(x=W_large, y=modelPR_lower_gammae_3['eva_V_10']['PiE_NN'][:,0], ax = axes[0,0], label=r'$Z^2$ 10th percentile', color=colors[0])
+sns.lineplot(x=W_large, y=modelPR_lower_gammae_3['eva_V_90']['PiE_NN'][:,0], ax = axes[0,0], label=r'$Z^2$ 90th percentile', color=colors[1])
 ax2 = axes[0,0].twinx()
 sns.lineplot(x = W_sparse, y = modelPR_lower_gammae_3['dentW'].values, ax = ax2, ls='--', color='grey',lw=2.0, alpha=0.5)
 ax2.grid(False)
@@ -244,8 +224,8 @@ axes[0,0].legend(prop={'size': 14})
 ax2.set_ylim([0,0.2])
 ax2.set_ylim([0,0.03])
 
-sns.lineplot(x=W_large, y=modelPR_lower['eva_V_10']['PiE_NN'][:,0], ax = axes[0,1], color='#1f77b4')
-sns.lineplot(x=W_large, y=modelPR_lower['eva_V_90']['PiE_NN'][:,0], ax = axes[0,1], color='#d62728')
+sns.lineplot(x=W_large, y=modelPR_lower['eva_V_10']['PiE_NN'][:,0], ax = axes[0,1], color=colors[0])
+sns.lineplot(x=W_large, y=modelPR_lower['eva_V_90']['PiE_NN'][:,0], ax = axes[0,1], color=colors[1])
 ax2 = axes[0,1].twinx()
 sns.lineplot(x = W_sparse, y = modelPR_lower['dentW'].values, ax = ax2, ls='--', color='grey',lw=2.0, alpha=0.5)
 ax2.grid(False)
@@ -255,8 +235,8 @@ axes[0,1].set_ylim([-0.01,2.3])
 ax2.set_ylim([0,0.03])
 
 
-sns.lineplot(x=W_large, y=modelPR_lower_gammae_5['eva_V_10']['PiE_NN'][:,0], ax = axes[0,2], color='#1f77b4')
-sns.lineplot(x=W_large, y=modelPR_lower_gammae_5['eva_V_90']['PiE_NN'][:,0], ax = axes[0,2], color='#d62728')
+sns.lineplot(x=W_large, y=modelPR_lower_gammae_5['eva_V_10']['PiE_NN'][:,0], ax = axes[0,2], color=colors[0])
+sns.lineplot(x=W_large, y=modelPR_lower_gammae_5['eva_V_90']['PiE_NN'][:,0], ax = axes[0,2], color=colors[1])
 ax2 = axes[0,2].twinx()
 sns.lineplot(x = W_sparse, y = modelPR_lower_gammae_5['dentW'].values, ax = ax2, ls='--', color='grey',lw=2.0, alpha=0.5)
 ax2.grid(False)
@@ -303,7 +283,7 @@ for ax in axes.flatten()[3:]:
     ax.set_ylim(0,1.2)
 
 axes[0,0].get_legend().remove()
-plt.savefig("figure_11.pdf",transparent=False)
+fig.savefig("figures/figure_11.pdf",transparent=False)
 
 #Figure 12
 print('Figure 12')
@@ -312,8 +292,8 @@ W_large = modelSG_lower['eva_V_50']['W']
 W_small = np.unique(modelSG_lower['W'].values)
 
 
-sns.lineplot(x=W_large, y=modelSG_lower_gammae_3['eva_V_10']['PiE_NN'][:,0], ax = axes[0,0], label=r'$Z^2$ 10th percentile', color='#1f77b4')
-sns.lineplot(x=W_large, y=modelSG_lower_gammae_3['eva_V_90']['PiE_NN'][:,0], ax = axes[0,0], label=r'$Z^2$ 90th percentile', color='#d62728')
+sns.lineplot(x=W_large, y=modelSG_lower_gammae_3['eva_V_10']['PiE_NN'][:,0], ax = axes[0,0], label=r'$Z^2$ 10th percentile', color=colors[0])
+sns.lineplot(x=W_large, y=modelSG_lower_gammae_3['eva_V_90']['PiE_NN'][:,0], ax = axes[0,0], label=r'$Z^2$ 90th percentile', color=colors[1])
 ax2 = axes[0,0].twinx()
 sns.lineplot(x = W_sparse, y = modelSG_lower_gammae_3['dentW'].values, ax = ax2, ls='--', color='grey',lw=2.0, alpha=0.5)
 ax2.grid(False)
@@ -324,8 +304,8 @@ axes[0,0].legend(prop={'size': 14})
 ax2.set_ylim([0,0.2])
 ax2.set_ylim([0,0.03])
 
-sns.lineplot(x=W_large, y=modelSG_lower['eva_V_10']['PiE_NN'][:,0], ax = axes[0,1], color='#1f77b4')
-sns.lineplot(x=W_large, y=modelSG_lower['eva_V_90']['PiE_NN'][:,0], ax = axes[0,1], color='#d62728')
+sns.lineplot(x=W_large, y=modelSG_lower['eva_V_10']['PiE_NN'][:,0], ax = axes[0,1], color=colors[0])
+sns.lineplot(x=W_large, y=modelSG_lower['eva_V_90']['PiE_NN'][:,0], ax = axes[0,1], color=colors[1])
 ax2 = axes[0,1].twinx()
 sns.lineplot(x = W_sparse, y = modelSG_lower['dentW'].values, ax = ax2, ls='--', color='grey',lw=2.0, alpha=0.5)
 ax2.grid(False)
@@ -335,8 +315,8 @@ axes[0,1].set_ylim([-0.01,2.3])
 ax2.set_ylim([0,0.03])
 
 
-sns.lineplot(x=W_large, y=modelSG_lower_gammae_5['eva_V_10']['PiE_NN'][:,0], ax = axes[0,2], color='#1f77b4')
-sns.lineplot(x=W_large, y=modelSG_lower_gammae_5['eva_V_90']['PiE_NN'][:,0], ax = axes[0,2], color='#d62728')
+sns.lineplot(x=W_large, y=modelSG_lower_gammae_5['eva_V_10']['PiE_NN'][:,0], ax = axes[0,2], color=colors[0])
+sns.lineplot(x=W_large, y=modelSG_lower_gammae_5['eva_V_90']['PiE_NN'][:,0], ax = axes[0,2], color=colors[1])
 ax2 = axes[0,2].twinx()
 sns.lineplot(x = W_sparse, y = modelSG_lower_gammae_5['dentW'].values, ax = ax2, ls='--', color='grey',lw=2.0, alpha=0.5)
 ax2.grid(False)
@@ -384,7 +364,7 @@ for ax in axes.flatten()[3:]:
 
 axes[0,0].get_legend().remove()
 
-plt.savefig("figure_12.pdf",transparent=False)
+fig.savefig("figures/figure_12.pdf",transparent=False)
 
 #Figure 13
 print('Figure 13')
@@ -462,7 +442,7 @@ for ax in axes.flatten():
     ax.grid(False)
 
 plt.tight_layout()
-plt.savefig("figure_13.pdf")
+fig.savefig("figures/figure_13.pdf")
 
 #Figure 14
 print('Figure 14')
@@ -500,34 +480,34 @@ axes[0,1].set_ylim(0,0.4)
 
 plt.subplots_adjust(wspace=0.3, hspace=0.25)
 plt.tight_layout()
-fig.savefig("figure_14.pdf")
+fig.savefig("figures/figure_14.pdf")
 
 #Figure 15
 print('Figure 15')
 fig, axes = plt.subplots(2,2, figsize=(8, 7))
-sns.lineplot(modelPR_upper['uncertaintye_priceelas']['price_elasticity'].item().secondType[0,1,:], ax = axes[0,0],color='#1f77b4')
+sns.lineplot(modelPR_upper['uncertaintye_priceelas']['price_elasticity'].item().secondType[0,1,:], ax = axes[0,0],color=colors[0])
 sns.lineplot(modelPR_upper['uncertaintye_priceelas']['price_elasticity'].item().secondType[1,1,:], ax = axes[0,0],color='red')
-sns.lineplot(modelPR_upper['uncertaintye_priceelas']['price_elasticity'].item().secondType[2,1,:], ax = axes[0,0],color='green')
+sns.lineplot(modelPR_upper['uncertaintye_priceelas']['price_elasticity'].item().secondType[2,1,:], ax = axes[0,0],color=colors[2])
 axes[0,0].set_title("PR")
 axes[0,0].set_ylabel("Experts")
 axes[0,0].set_ylim([0,0.15])
 
-sns.lineplot(modelSG_upper['uncertaintye_priceelas']['price_elasticity'].item().secondType[0,1,:], ax = axes[0,1],color='#1f77b4')
+sns.lineplot(modelSG_upper['uncertaintye_priceelas']['price_elasticity'].item().secondType[0,1,:], ax = axes[0,1],color=colors[0])
 sns.lineplot(modelSG_upper['uncertaintye_priceelas']['price_elasticity'].item().secondType[1,1,:], ax = axes[0,1],color='red')
-sns.lineplot(modelSG_upper['uncertaintye_priceelas']['price_elasticity'].item().secondType[2,1,:], ax = axes[0,1],color='green')
+sns.lineplot(modelSG_upper['uncertaintye_priceelas']['price_elasticity'].item().secondType[2,1,:], ax = axes[0,1],color=colors[2])
 axes[0,1].set_title("SG")
 axes[0,1].set_ylim([0,0.15])
 
-sns.lineplot(modelPR_upper['uncertaintyh_priceelas']['price_elasticity'].item().secondType[0,1,:], ax = axes[1,0],color='#1f77b4')
+sns.lineplot(modelPR_upper['uncertaintyh_priceelas']['price_elasticity'].item().secondType[0,1,:], ax = axes[1,0],color=colors[0])
 sns.lineplot(modelPR_upper['uncertaintyh_priceelas']['price_elasticity'].item().secondType[1,1,:], ax = axes[1,0],color='red')
-sns.lineplot(modelPR_upper['uncertaintyh_priceelas']['price_elasticity'].item().secondType[2,1,:], ax = axes[1,0],color='green')
+sns.lineplot(modelPR_upper['uncertaintyh_priceelas']['price_elasticity'].item().secondType[2,1,:], ax = axes[1,0],color=colors[2])
 axes[1,0].set_ylabel("Households")
 axes[1,0].set_xlabel("years")
 axes[1,0].set_ylim([0,0.3])
 
-sns.lineplot(modelSG_upper['uncertaintyh_priceelas']['price_elasticity'].item().secondType[0,1,:], ax = axes[1,1],color='#1f77b4')
+sns.lineplot(modelSG_upper['uncertaintyh_priceelas']['price_elasticity'].item().secondType[0,1,:], ax = axes[1,1],color=colors[0])
 sns.lineplot(modelSG_upper['uncertaintyh_priceelas']['price_elasticity'].item().secondType[1,1,:], ax = axes[1,1],color='red')
-sns.lineplot(modelSG_upper['uncertaintyh_priceelas']['price_elasticity'].item().secondType[2,1,:], ax = axes[1,1],color='green')
+sns.lineplot(modelSG_upper['uncertaintyh_priceelas']['price_elasticity'].item().secondType[2,1,:], ax = axes[1,1],color=colors[2])
 axes[1,1].set_xlabel("years")
 axes[1,1].set_ylim([0,0.3])
 
@@ -538,4 +518,4 @@ for ax in axes.flatten():
 # plt.suptitle('Uncertainty Prices Term Structure')
 plt.subplots_adjust(wspace=0.3, hspace=0.25)
 plt.tight_layout()
-plt.savefig("figure_15.pdf")
+fig.savefig("figures/figure_15.pdf")

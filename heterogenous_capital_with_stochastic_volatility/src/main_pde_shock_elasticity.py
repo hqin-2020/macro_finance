@@ -200,7 +200,7 @@ logsdfdiffusion = [-rho*logc_diffusion[i]+(rho-gamma)*logv_diffusion[i] for i in
 statespace = [np.unique(ll), np.unique(zz), np.unique(ss)]
 T = 45
 dt = 1
-bc = {'natural':True}
+bc = {'natural':True} ## natural boundary condition (see mfrSuite Readme p32/p37 for details)
 marginal_quantile = marginal_quantile_func_factory(dent, statespace, ['l','z','s'])
 initial_points = [[marginal_quantile['l'](0.5),marginal_quantile['z'](0.5),marginal_quantile['s'](0.5)]]
 

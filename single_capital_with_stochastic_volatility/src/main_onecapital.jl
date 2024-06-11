@@ -52,23 +52,22 @@ outputdir = "./output/"*action_name*"/Delta_"*string(Delta)*"/delta_"*string(del
 isdir(outputdir) || mkpath(outputdir)
 
 ## Calibration
-a11 = 0.056; 
-a22 = 0.194;
-eta = 0.04;
-beta = 0.04;
-phi = 8.0;
-sigma_k = vec([0.92,0.4, 0.0]) * sqrt(12)
-sigma_z = vec([0.0, 5.7, 0.0]) * sqrt(12)
-sigma_y = vec([0,   0,   0.00031]) * sqrt(12)
+a11 = 0.056;  ## long run risk persistence (beta_1 in the paper)
+a22 = 0.194;  ## stochastic volatility persistence (beta_2 in the paper)
+eta = 0.04;   ## depreciation rate (eta_k in the paper)
+beta = 0.04;  ## loading factor on the capital stock in the long run risk process (beta_k in the paper)
+phi = 8.0;    ## adjustment cost
+sigma_k = vec([0.92,0.4, 0.0]) * sqrt(12)     ## shock exposure in the capital evolution process
+sigma_z = vec([0.0, 5.7, 0.0]) * sqrt(12)     ## shock exposure in the long run risk evolution process
+sigma_y = vec([0,   0,   0.00031]) * sqrt(12) ## shock exposure in the stochastic volatility process
 
 ## Construct state space grid
-II, JJ = trunc(Int, 201), trunc(Int, 201);
-zmax = 5.0;
-zmin = -zmax;
-
-ymean = 6.3e-06;
-ymax = 2e-05;
-ymin = 5e-07;
+II, JJ = trunc(Int, 201), trunc(Int, 201); ## number of grid points for the long run risk state variable and the stochastic volatility state variable (z1, z2 in the paper)
+zmax = 5.0;                                ## upper bound of the long run risk state variable
+zmin = -zmax;                              ## lower bound of the long run risk state variable
+ymean = 6.3e-06;                           ## stochastic volatility mean
+ymax = 2e-05;                              ## upper bound of the stochastic volatility state variable
+ymin = 5e-07;                              ## lower bound of the stochastic volatility state variable
 
 maxit = 50000;      # maximum number of iterations in the HJB loop
 crit  = 10e-6;      # criterion HJB loop
@@ -110,10 +109,10 @@ println("Convegence time (minutes): ", times/60)
 g = stationary_distribution(A, grid)
 
 ## Control variables
-hk = (hk_F + hk_B)/2.;
-hz = (hz_F + hz_B)/2.;
-hy = (hy_F + hy_B)/2.;
-c = alpha*ones(II,JJ) - d
+hk = (hk_F + hk_B)/2.; ## Robust control
+hz = (hz_F + hz_B)/2.; ## Robust control
+hy = (hy_F + hy_B)/2.; ## Robust control
+c = alpha*ones(II,JJ) - d ## consumption capital ratio
 
 ## Save results
 results = Dict(
@@ -126,6 +125,7 @@ results = Dict(
 # Results
 "cons" => c, "d" => d, "hk" => hk, "hz" => hz, "hy" => hy,
 "V" => V, "Vz" => Vz, "Vy" => Vy, "val" => val, "dz" => dz, "dy" => dy,
-"mu_k" => mu_k, "mu_z" => mu_z, "mu_y" => mu_y, "g" => g,
+"mu_k" => mu_k, "mu_z" => mu_z, "mu_y" => mu_y, 
+"g" => g, # stationary density
 )
 npzwrite(outputdir*"res.npz", results)

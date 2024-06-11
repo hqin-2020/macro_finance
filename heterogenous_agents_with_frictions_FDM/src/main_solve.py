@@ -27,60 +27,60 @@ args = parser.parse_args()
 
 params = m.paramsDefault.copy()
 
-muz2 = 0.0000063030303030303026
+muz2 = 0.0000063030303030303026 ## stochastic volatility mean, we abstract this process as a constant scaling factor 
 ## Dimensionality params
-params['nDims']             = 2
-params['nShocks']           = 2
+params['nDims']             = 2 ## Number of state variables
+params['nShocks']           = 2 ## Number of shocks
 
 ## Grid parameters 
-params['numSds']            = 5
-params['uselogW']           = 1
-params['nWealth']           = args.nW
-params['nZ']                = args.nZ
-params['nV']                = 0
-params['nVtilde']           = 0
+params['numSds']            = 5 ## Number of standard deviations for the grid
+params['uselogW']           = 1 ## Use log wealth grid
+params['nWealth']           = args.nW ## Number of grid points for wealth (w in the paper)
+params['nZ']                = args.nZ ## Number of grid points for long run risk (z1 in the paper)
+params['nV']                = 0 ## Number of grid points for aggregate stochastic volatility (z2 in the paper)
+params['nVtilde']           = 0 ## Number of grid points for idiosyncratic stochastic volatility (not used in the paper)
 
 # Domain params
-params['Z_bar']             = 0.0
-params['V_bar']             = 1.0
-params['Vtilde_bar']        = 0.0
-params['sigma_K_norm']      = 1*np.sqrt(12)*np.sqrt(muz2)
-params['sigma_Z_norm']      = 2.30608/0.4027386142660167*np.sqrt(12)*np.sqrt(muz2)
-params['sigma_V_norm']      = 0.0
-params['sigma_Vtilde_norm'] = 0.0
-params['wMin']              = 0.001
-params['wMax']              = 0.999
+params['Z_bar']             = 0.0 ## Mean of long run risk
+params['V_bar']             = 1.0 ## Mean of aggregate stochastic volatility
+params['Vtilde_bar']        = 0.0 ## Mean of individual stochastic volatility
+params['sigma_K_norm']      = 1*np.sqrt(12)*np.sqrt(muz2) ## Normalized standard deviation of the experts wealth share exposure matrix
+params['sigma_Z_norm']      = 2.30608/0.4027386142660167*np.sqrt(12)*np.sqrt(muz2) ## Normalized standard deviation of the long run risk exposure matrix
+params['sigma_V_norm']      = 0.0 ## Normalized standard deviation of the stochastic volatility exposure matrix
+params['sigma_Vtilde_norm'] = 0.0 ## Normalized standard deviation of the idiosyncratic stochastic volatility exposure matrix
+params['wMin']              = 0.001 ## Minimum wealth share
+params['wMax']              = 0.999 ## Maximum wealth share
 
 ## Economic params
-params['nu_newborn']        = args.nu
-params['lambda_d']          = args.lambda_d
-params['lambda_Z']          = 0.056
-params['lambda_V']          = 0.0
-params['lambda_Vtilde']     = 0.0
-params['delta_e']           = args.delta_e
-params['delta_h']           = args.delta_h
-params['a_e']               = args.a_e
-params['a_h']               = args.a_h
-params['rho_e']             = args.rho_e
-params['rho_h']             = args.rho_h
-params['phi']               = 8.0
-params['gamma_e']           = args.gamma_e
-params['gamma_h']           = args.gamma_h
-params['equityIss']         = 2
-params['chiUnderline']      = args.chiUnderline
-params['alpha_K']           = 0.04
+params['nu_newborn']        = args.nu ## fraction of newborns as experts
+params['lambda_d']          = args.lambda_d ## death rate
+params['lambda_Z']          = 0.056 ## long run risk persistence (beta_1 in the paper)
+params['lambda_V']          = 0.0   ## aggregate stochastic volatility persistence (beta_2 in the paper)
+params['lambda_Vtilde']     = 0.0   ## individual stochastic volatility persistence (not used in the paper)
+params['delta_e']           = args.delta_e  ## experts depreciation rate
+params['delta_h']           = args.delta_h  ## households depreciation rate
+params['a_e']               = args.a_e      ## experts productivity
+params['a_h']               = args.a_h      ## households productivity
+params['rho_e']             = args.rho_e    ## experts inverse IES
+params['rho_h']             = args.rho_h    ## households inverse IES
+params['phi']               = 8.0           ## adjustment cost
+params['gamma_e']           = args.gamma_e  ## experts risk aversion
+params['gamma_h']           = args.gamma_h  ## households risk aversion
+params['equityIss']         = 2             ## equity issuance constraint (see mfrSuite Readme p52 for details)
+params['chiUnderline']      = args.chiUnderline ## experts equity retention lower bound
+params['alpha_K']           = 0.04          ## depreciation rate of capital (eta_k in the paper)
 
 ## Alogirthm behavior and results savings params
-params['method']            = 2
-params['dt']                = args.dt
-params['dtInner']           = args.dt
+params['method']            = 2             ## implicit scheme (see mfrSuite Readme p53 for details)
+params['dt']                = args.dt       ## time step for outer loop
+params['dtInner']           = args.dt       ## time step for inner loop
 
-params['tol']               = 1e-5
-params['innerTol']          = 1e-5
+params['tol']               = 1e-5          ## outer loop tolerance
+params['innerTol']          = 1e-5          ## inner loop tolerance
 
-params['verbatim']          = -1
-params['maxIters']          = 500000
-params['maxItersInner']     = 500000
+params['verbatim']          = -1            ## verbosity level (see mfrSuite Readme p53 for details)
+params['maxIters']          = 500000        ## maximum number of iterations for outer loop
+params['maxItersInner']     = 500000        ## maximum number of iterations for inner loop
 params['iparm_2']           = 28
 params['iparm_3']           = 0
 params['iparm_28']          = 0
