@@ -2,7 +2,7 @@
 
 # Description: This script solves the model and computes shock elasticities for the specification in Section 4.5.
 
-#### Parameter Configuration Arrays: each array contains the values of the parameters for the different scenarios
+# see parameter explanation in the main_onecapital.jl file
 Deltaarray=(1.0)
 rhoarray=(1.0)
 alphaarray=(0.0922)

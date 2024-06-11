@@ -2,7 +2,7 @@
 
 # Description: This script solves the model for the three-dimensional economy in Section 4.6 for \rho = 0.67, 1.0, 1.5 with stochastic volatility.
 
-#### Parameter Configuration Arrays: each array contains the values of the parameters for the different scenarios
+# see parameter explanation in the main_twocapitals_three_dimensions.jl file
 Deltaarray=(1.0 0.001 1.0)
 kappaarray=(0.0 1.0 2.0)
 

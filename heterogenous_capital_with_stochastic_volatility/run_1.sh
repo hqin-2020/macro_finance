@@ -2,7 +2,7 @@
 
 # Description: This script solves the model and computes shock elasticities for the two-dimensional economy in Section 4.6 for \rho = 1.0 without stochastic volatility.
 
-#### Parameter Configuration Arrays: each array contains the values of the parameters for the different scenarios
+# see parameter explanation in the main_twocapitals_two_dimensions.jl file
 Deltaarray=(1.0 0.1)
 beta1array=(0.04 0.0)
 beta2array=(0.04 0.08)

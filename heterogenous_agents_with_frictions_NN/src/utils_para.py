@@ -5,7 +5,7 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 tf.get_logger().setLevel('ERROR')
-tf.config.set_visible_devices([], 'GPU') # To enable GPU acceleration, comment out the following line and ensure CUDA and cuDNN libraries are properly installed
+tf.config.set_visible_devices([], 'GPU') # To enable GPU acceleration, comment out this line and ensure CUDA and cuDNN libraries are properly installed
 
 def setModelParameters(parameter_list, domain_list, nDims, datadir, triangular):
 

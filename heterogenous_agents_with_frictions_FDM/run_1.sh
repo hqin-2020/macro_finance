@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # Description: This script solves the model for the two-dimensional IP economy in Section 5.3.4 
-
+# see parameter explanation in the main_solve.py file
 chiUnderlinearray=(1.0)
 a_earray=(0.0922)
 a_harray=(0.07 0.08 0.085)

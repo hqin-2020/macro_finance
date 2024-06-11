@@ -2,7 +2,7 @@
 
 # Description: This script solves the model and computes shock elasticities for the example economy in Section 4.4 for \rho = 1.0
 
-#### Parameter Configuration Arrays: each array contains the values of the parameters for the different scenarios
+# see parameter explanation in the main_onecapital.jl file
 Deltaarray=(1.0)
 gammaarray=(1.0 8.0)
 

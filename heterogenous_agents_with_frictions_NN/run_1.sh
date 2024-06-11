@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Description: This script solve the models for the three-dimensional RF / SG / PR economy in Section 5.3.1, 5.3.2, 5.3.3 using neural networks
-
+# see parameter explanation in the main_BFGS.py file
 chiUnderlinearray=(1.0 1.0 1.0 0.2 0.2 0.2 0.00001 0.00001 0.00001)
 gamma_earray=(3.0 4.0 5.0 3.0 4.0 5.0 3.0 4.0 5.0)
 a_earray=(0.0922)
