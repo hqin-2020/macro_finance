@@ -11,14 +11,18 @@ The subfolder solves three-dimenisonal heterogenous-agent production economies i
      - **utils_para.py**: Generates parameters in the model
      - **utils_training.py**: Defines HJB and FOC loss functions
      - **utils_DGM.py**: Neural nets basic structures
+   - Estimated running time: < 3 mins (tested on a single core of Intel Xeon Gold 6248R using the parameters in the bash file)
 2. **run_2.sh**
    - **main_variable.py**: Evaluates the solved models on validation sets, calculate stationary densities and validation errors
+   - Estimated running time: < 3 mins (tested on a single core of Intel Xeon Gold 6248R using the parameters in the bash file)
 3. **run_3.sh**
    - **main_pde_shock_elasticity.py**: Calculates shock elasticities by solving PDE
      - **utils_pde_shock_elasticity.py**: Contains source files for continuous-time shock elasticity PDE computations.
+   - Estimated running time: < 15 mins (tested on a single core of Intel Xeon Gold 6248R using the parameters in the bash file)
 4. **run_4.sh**
    - **main_sim_shock_elasticity.py**: Calculates shock elasticities by simulation
      - **utils_sim_shock_elasticity.py**: Contains source files for continuous-time shock elasticity simulations.
+   - Estimated running time: < 2 mins (tested on 45 cores of Intel Xeon Gold 6248R using the parameters in the bash file)
 5. **results.ipynb**: Load model solution, plot risk prices, equilibrium varibles, shock elasticities.
 
 ### Generated Directory Structure

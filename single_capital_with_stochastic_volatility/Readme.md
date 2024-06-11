@@ -4,18 +4,18 @@ The subfolder solves single capital production economies with stochastic volatil
 
 ## Scripts Overview
 
-### Model Computation and Analysis Scripts
-
 1. **run_1.sh**: solve for the \rho=1 case
     - **main_onecapital.jl**: Solves the three dimensional model using Finite Diffence.
         - **utils_onecapital.jl**: Contains source files for HJB equation computations.
     - **main_pde_shock_elasticity.py**: Solve the investment-output ratio, consumption, uncertainty price shock elasticity using Finite Diffence.
         - **utils_pde_shock_elasticity.py**: Contains source files for continuous-time shock elasticity PDE computations.
         - **utils_FDM.py**: Computes finite differences for input data across various dimensions and orders.
+    - Estimated running time: < 3 mins (tested on a single core of Intel Xeon Gold 6248R using the parameters in the bash file)
 2. **run_2.sh**: Use \rho=1 result as preload to solve the case with \rho = 0.67 and \rho = 1.5
+    - Estimated running time: < 5 mins (tested on a single core of Intel Xeon Gold 6248R using the parameters in the bash file)
 3. **results.ipynb**: Load model solutions, plot shock elasticities.
 
-### Generated Directory Structure
+## Generated Directory Structure
 
 Running the above bash scripts organizes the outputs and logs into specific directories to streamline troubleshooting and monitoring of script execution:
 

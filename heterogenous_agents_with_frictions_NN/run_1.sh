@@ -2,13 +2,8 @@
 
 # Description: This script solve the models for the three-dimensional RF / SG / PR economy in Section 5.3.1, 5.3.2, 5.3.3 using neural networks
 
-#### Model Configuration Arrays
-# Model scenarios and their respective parameter values.
 chiUnderlinearray=(1.0 1.0 1.0 0.2 0.2 0.2 0.00001 0.00001 0.00001)
 gamma_earray=(3.0 4.0 5.0 3.0 4.0 5.0 3.0 4.0 5.0)
-
-#### Model Parameters
-# Risk aversion and productivity parameters.
 a_earray=(0.0922)
 a_harray=(0.0)
 gamma_harray=(8.0)
@@ -19,8 +14,6 @@ rho_e=1.0
 rho_h=1.0
 nu=0.1
 
-#### Model Specifics
-# Variables defining the state space for wealth share.
 V_bar=0.0000063030303030303026
 sigma_K_norm=3.1707442821755683
 sigma_Z_norm=19.835431735873996
@@ -28,33 +21,20 @@ sigma_V_norm=0.0010882177801089308
 wMin=0.01
 wMax=0.99
 
-#### Grid Settings for Validation Set
-# Number of grid points used in validation sets.
 nWealth=180
 nZ=30
 nV=30
 
-#### Neural Network Training Configuration
-# Seed for random number generation to ensure reproducibility.
 seed_array=(256)
-# Number of inner layers in the neural network.
 n_layers_array=(2)
-# Number of units per layer.
 units_array=(16)
-# Number of random points in each batch of the training set (2**10).
 points_size_array=(10)
-# Number of training batches.
 iter_num_array=(5)
-# Penalization factor for the first-order conditions.
 penalization=10000
 
-#### BFGS Optimizer Settings
-# Configuration for the BFGS optimizer used in the model.
 BFGSmaxiter=100
 BFGSmaxfun=100
 
-# Run Model Execution
-# Loop through all configurations and execute the models.
 count=0
 for index in ${!chiUnderlinearray[@]}; do
     chiUnderline=${chiUnderlinearray[$index]}

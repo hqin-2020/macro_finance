@@ -4,17 +4,16 @@ The subfolder solves single capital production economies with structure ambiguit
 
 ## Scripts Overview
 
-### Model Computation and Analysis Scripts
-
 1. **run.sh**
     - **main_onecapital.jl**: Solves the two dimensional model using Finite Diffence.
         - **utils_onecapital.jl**: Contains source files for HJB equation computations.
     - **main_pde_shock_elasticity.py**: Solve the uncertainty price shock elasticity using Finite Diffence.
         - **utils_pde_shock_elasticity.py**: Contains source files for continuous-time shock elasticity PDE computations.
         - **utils_FDM.py**: Computes finite differences for input data across various dimensions and orders.
+   - Estimated running time: < 1 min (tested on a single core of Intel Xeon Gold 6248R using the parameters in the bash file)
 2. **results.ipynb**: Load model solutions, plot distorted drifts, ambiguity sets, and uncertainty price elasticities.
 
-### Generated Directory Structure
+## Generated Directory Structure
 
 Running the above bash scripts organizes the outputs and logs into specific directories to streamline troubleshooting and monitoring of script execution:
 

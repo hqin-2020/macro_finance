@@ -10,9 +10,11 @@ The subfolder solves two-dimensional heterogenous-agent production economies in 
    - **main_solve.py**: Solves the model IP using Finite Difference 
      - **_mfrSuite_**: Independe modules to solve heterogenous-agent models, please run `install.sh` in the directory before solving the model
    - **main_evaluate.py**: Evaluates the solved models on specific points we are insterested in
+   - Estimated running time: < 12 hours (tested on a single core of Intel Xeon Gold 6248R using the parameters in the bash file)
 2. **run_2.sh**
    - **main_sim_shock_elasticity.py**: Calculates shock elasticities by simulation
      - **utils_sim_shock_elasticity.py**: Contains source files for continuous-time shock elasticity simulations.
+   - Estimated running time: < 5 mins (tested on 45 cores of Intel Xeon Gold 6248R using the parameters in the bash file)
 3. **results.ipynb**: Load model solution, plot risk prices, equilibrium varibles, shock elasticities.
 
 ### Generated Directory Structure
